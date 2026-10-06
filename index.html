@@ -1,2 +1,288 @@
-Commit changes → Commit changes
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>KRYPTARA-X | Smart Campus Intelligence</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #050816;
+      color: white;
+    }
+
+    header {
+      width: 100%;
+      padding: 22px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1b2545;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      color: #00eaff;
+      letter-spacing: 2px;
+    }
+
+    nav a {
+      color: #d9e4ff;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 15px;
+    }
+
+    nav a:hover {
+      color: #00eaff;
+    }
+
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      padding: 70px 8%;
+      background:
+        radial-gradient(circle at 70% 40%, #12366b 0%, transparent 35%),
+        #050816;
+    }
+
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 15px;
+      border: 1px solid #00eaff;
+      border-radius: 30px;
+      color: #00eaff;
+      margin-bottom: 25px;
+      font-size: 13px;
+    }
+
+    h1 {
+      font-size: clamp(45px, 7vw, 85px);
+      line-height: 1;
+      margin-bottom: 25px;
+    }
+
+    h1 span {
+      color: #00eaff;
+    }
+
+    .hero p {
+      color: #aebbd7;
+      font-size: 18px;
+      line-height: 1.7;
+      max-width: 650px;
+      margin-bottom: 35px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #00eaff;
+      color: #001018;
+    }
+
+    .secondary {
+      border: 1px solid #33466f;
+      color: white;
+    }
+
+    .features {
+      padding: 80px 8%;
+      background: #070b1c;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: #8f9bb7;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      padding: 30px;
+      background: #0b1126;
+      border: 1px solid #1b2a4d;
+      border-radius: 15px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: #00eaff;
+    }
+
+    .icon {
+      font-size: 35px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #8996b5;
+      line-height: 1.6;
+    }
+
+    footer {
+      padding: 25px 8%;
+      text-align: center;
+      color: #6f7b98;
+      border-top: 1px solid #1b2545;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">KRYPTARA-X</div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#features">Systems</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        AI-POWERED CIVIC INTELLIGENCE
+      </div>
+
+      <h1>
+        Predict.<br>
+        Protect.<br>
+        <span>Respond.</span>
+      </h1>
+
+      <p>
+        KRYPTARA-X is an AI-powered Predictive Civic Intelligence
+        Digital Twin designed to monitor, predict and respond to
+        smart campus and civic challenges in real time.
+      </p>
+
+      <div class="buttons">
+        <a href="#features" class="btn primary">
+          Explore System
+        </a>
+
+        <a href="#about" class="btn secondary">
+          Learn More
+        </a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="features" id="features">
+
+    <div class="section-title">
+      <h2>Core Intelligence Systems</h2>
+      <p>Next-generation AI infrastructure for smarter environments.</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>Predictive AI</h3>
+        <p>
+          Analyze real-time data and predict potential civic
+          and campus incidents before they occur.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🌐</div>
+        <h3>Digital Twin</h3>
+        <p>
+          Create a virtual representation of campus infrastructure,
+          resources and environmental conditions.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🚨</div>
+        <h3>Smart Response</h3>
+        <p>
+          Automatically identify incidents and recommend
+          intelligent response strategies.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">📊</div>
+        <h3>Live Intelligence</h3>
+        <p>
+          Transform live sensor and system data into
+          meaningful operational intelligence.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="features" id="about">
+
+    <div class="section-title">
+      <h2>Built for the Future</h2>
+      <p>
+        KRYPTARA-X connects AI, predictive analytics,
+        digital twins and autonomous response into one platform.
+      </p>
+    </div>
+
+  </section>
+
+  <footer>
+    © 2026 KRYPTARA-X — Smart Intelligence Platform
+  </footer>
+
+</body>
+</html>
 
