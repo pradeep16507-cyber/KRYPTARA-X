@@ -3,602 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>KRYPTARA-X | AI Command Center</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,Helvetica,sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#050816;color:white;min-height:100vh}
+.sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;background:#080d20;border-right:1px solid #1b294d;padding:25px 18px}
+.logo{font-size:23px;font-weight:bold;color:#00eaff;letter-spacing:2px;margin-bottom:45px}
+.logo small{display:block;font-size:9px;color:#7281a8;margin-top:6px}
+.menu a{display:block;color:#9caaca;text-decoration:none;padding:14px 15px;margin:7px 0;border-radius:9px}
+.menu a:hover,.menu .active{background:#102344;color:#00eaff}
+.system{position:absolute;bottom:25px;left:18px;right:18px;padding:15px;border:1px solid #1c3155;border-radius:10px}
+.dot{display:inline-block;width:9px;height:9px;background:#22e38a;border-radius:50%;margin-right:7px}
 
-body{
-  background:#050816;
-  color:#fff;
-  min-height:100vh;
-}
+.main{margin-left:240px;padding:25px 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.topbar h1{font-size:27px}
+.topbar p{color:#7786a8;margin-top:6px}
+.status{border:1px solid #1d3856;padding:11px 17px;border-radius:8px;color:#63f0b0}
 
-/* SIDEBAR */
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  width:240px;
-  height:100vh;
-  background:#080d20;
-  border-right:1px solid #1b294d;
-  padding:25px 18px;
-}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:25px}
+.card{background:#0a1126;border:1px solid #1a2a4c;border-radius:13px;padding:22px}
+.card-title{color:#7e8cae;font-size:13px;margin-bottom:13px}
+.value{font-size:31px;font-weight:bold}
+.green{color:#45e69b}.cyan{color:#00eaff}.yellow{color:#ffd45c}.red{color:#ff647c}
+.change{color:#7182a5;font-size:12px;margin-top:9px}
 
-.logo{
-  font-size:23px;
-  font-weight:bold;
-  color:#00eaff;
-  letter-spacing:2px;
-  margin-bottom:45px;
-}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:20px}
+.panel{background:#0a1126;border:1px solid #1a2a4c;border-radius:13px;padding:23px}
+.panel h2{font-size:18px;margin-bottom:20px}
+.panel-sub{color:#7181a3;font-size:12px;margin-top:-14px;margin-bottom:20px}
 
-.logo small{
-  display:block;
-  font-size:9px;
-  color:#7281a8;
-  letter-spacing:1px;
-  margin-top:6px;
-}
+.graph{height:220px;display:flex;align-items:flex-end;gap:12px;padding:15px 5px 0;border-bottom:1px solid #263653}
+.bar{flex:1;background:linear-gradient(to top,#00eaff,#314cff);border-radius:5px 5px 0 0;min-height:30px;opacity:.8}
+.labels{display:flex;justify-content:space-between;color:#667694;font-size:11px;margin-top:10px}
 
-.menu a{
-  display:block;
-  color:#9caaca;
-  text-decoration:none;
-  padding:14px 15px;
-  margin:7px 0;
-  border-radius:9px;
-}
+.risk{display:flex;align-items:center;justify-content:center;height:180px}
+.circle{width:145px;height:145px;border-radius:50%;border:14px solid #ffca52;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.circle strong{font-size:37px}.circle span{color:#8290ae;font-size:12px}
 
-.menu a:hover,
-.menu .active{
-  background:#102344;
-  color:#00eaff;
-}
+.alert{display:flex;align-items:center;gap:14px;padding:14px;background:#0c152d;border:1px solid #1a2b4c;border-radius:9px;margin-bottom:10px}
+.alert-icon{width:35px;height:35px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#21152a}
+.alert h3{font-size:13px}.alert p{color:#7281a0;font-size:11px;margin-top:4px}
 
-.system{
-  position:absolute;
-  bottom:25px;
-  left:18px;
-  right:18px;
-  padding:15px;
-  border:1px solid #1c3155;
-  border-radius:10px;
-}
+.response{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.response-card{padding:18px;border-radius:10px;background:#0c152c;border:1px solid #1b2c4d}
+.response-card h3{font-size:14px;margin-bottom:8px}
+.response-card p{color:#7786a6;font-size:12px;line-height:1.5}
+.progress{height:6px;background:#1a2945;border-radius:10px;margin-top:13px;overflow:hidden}
+.progress span{display:block;height:100%;background:#00eaff}
 
-.dot{
-  display:inline-block;
-  width:9px;
-  height:9px;
-  background:#22e38a;
-  border-radius:50%;
-  margin-right:7px;
-}
+footer{text-align:center;color:#52617f;padding:25px;font-size:12px}
 
-/* MAIN */
-.main{
-  margin-left:240px;
-  padding:25px 35px;
-}
-
-/* TOPBAR */
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:30px;
-}
-
-.topbar h1{
-  font-size:27px;
-}
-
-.topbar p{
-  color:#7786a8;
-  margin-top:6px;
-}
-
-.status{
-  border:1px solid #1d3856;
-  padding:11px 17px;
-  border-radius:8px;
-  color:#63f0b0;
-}
-
-/* CARDS */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-  margin-bottom:25px;
-}
-
-.card{
-  background:#0a1126;
-  border:1px solid #1a2a4c;
-  border-radius:13px;
-  padding:22px;
-}
-
-.card-title{
-  color:#7e8cae;
-  font-size:13px;
-  margin-bottom:13px;
-}
-
-.value{
-  font-size:31px;
-  font-weight:bold;
-}
-
-.green{
-  color:#45e69b;
-}
-
-.cyan{
-  color:#00eaff;
-}
-
-.yellow{
-  color:#ffd45c;
-}
-
-.red{
-  color:#ff647c;
-}
-
-.change{
-  color:#7182a5;
-  font-size:12px;
-  margin-top:9px;
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:20px;
-  margin-bottom:20px;
-}
-
-.panel{
-  background:#0a1126;
-  border:1px solid #1a2a4c;
-  border-radius:13px;
-  padding:23px;
-}
-
-.panel h2{
-  font-size:18px;
-  margin-bottom:20px;
-}
-
-.panel-sub{
-  color:#7181a3;
-  font-size:12px;
-  margin-top:-14px;
-  margin-bottom:20px;
-}
-
-/* GRAPH */
-.graph{
-  height:220px;
-  display:flex;
-  align-items:flex-end;
-  gap:12px;
-  padding:15px 5px 0;
-  border-bottom:1px solid #263653;
-}
-
-.bar{
-  flex:1;
-  background:linear-gradient(to top,#00eaff,#314cff);
-  border-radius:5px 5px 0 0;
-  min-height:30px;
-  opacity:.8;
-}
-
-.labels{
-  display:flex;
-  justify-content:space-between;
-  color:#667694;
-  font-size:11px;
-  margin-top:10px;
-}
-
-/* RISK */
-.risk{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:180px;
-}
-
-.circle{
-  width:145px;
-  height:145px;
-  border-radius:50%;
-  border:14px solid #ffca52;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  box-shadow:0 0 35px rgba(255,202,82,.15);
-}
-
-.circle strong{
-  font-size:37px;
-}
-
-.circle span{
-  color:#8290ae;
-  font-size:12px;
-}
-
-/* ALERTS */
-.alert{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:14px;
-  background:#0c152d;
-  border:1px solid #1a2b4c;
-  border-radius:9px;
-  margin-bottom:10px;
-}
-
-.alert-icon{
-  width:35px;
-  height:35px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:8px;
-  background:#21152a;
-}
-
-.alert h3{
-  font-size:13px;
-}
-
-.alert p{
-  color:#7281a0;
-  font-size:11px;
-  margin-top:4px;
-}
-
-/* RESPONSE */
-.response{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
-
-.response-card{
-  padding:18px;
-  border-radius:10px;
-  background:#0c152c;
-  border:1px solid #1b2c4d;
-}
-
-.response-card h3{
-  font-size:14px;
-  margin-bottom:8px;
-}
-
-.response-card p{
-  color:#7786a6;
-  font-size:12px;
-  line-height:1.5;
-}
-
-.progress{
-  height:6px;
-  background:#1a2945;
-  border-radius:10px;
-  margin-top:13px;
-  overflow:hidden;
-}
-
-.progress span{
-  display:block;
-  height:100%;
-  background:#00eaff;
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  color:#52617f;
-  padding:25px;
-  font-size:12px;
-}
-
-/* RESPONSIVE */
 @media(max-width:1000px){
-
-  .sidebar{
-    width:190px;
-  }
-
-  .main{
-    margin-left:190px;
-  }
-
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
+.sidebar{width:190px}.main{margin-left:190px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}
 }
-
 @media(max-width:700px){
-
-  .sidebar{
-    position:relative;
-    width:100%;
-    height:auto;
-  }
-
-  .system{
-    position:relative;
-    left:auto;
-    right:auto;
-    bottom:auto;
-    margin-top:20px;
-  }
-
-  .main{
-    margin-left:0;
-    padding:20px;
-  }
-
-  .cards{
-    grid-template-columns:1fr;
-  }
-
-  .response{
-    grid-template-columns:1fr;
-  }
+.sidebar{position:relative;width:100%;height:auto}
+.system{position:relative;left:auto;right:auto;bottom:auto;margin-top:20px}
+.main{margin-left:0;padding:20px}.cards{grid-template-columns:1fr}.response{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
+<div class="logo">
+KRYPTARA-X
+<small>AI CIVIC INTELLIGENCE</small>
+</div>
 
-  <div class="logo">
-    KRYPTARA-X
-    <small>AI CIVIC INTELLIGENCE</small>
-  </div>
+<div class="menu">
+<a href="#" class="active">◈ Dashboard</a>
+<a href="#">◉ Digital Twin</a>
+<a href="#">◉ AI Predictions</a>
+<a href="#">⚠ Incident Center</a>
+<a href="#">▣ Analytics</a>
+<a href="#">⚙ System Control</a>
+</div>
 
-  <div class="menu">
-    <a href="#" class="active">◈ Dashboard</a>
-    <a href="#">◉ Digital Twin</a>
-    <a href="#">◉ AI Predictions</a>
-    <a href="#">⚠ Incident Center</a>
-    <a href="#">▣ Analytics</a>
-    <a href="#">⚙ System Control</a>
-  </div>
-
-  <div class="system">
-    <span class="dot"></span>
-    System Operational
-    <div style="color:#667694;font-size:11px;margin-top:7px;">
-      All core services online
-    </div>
-  </div>
-
+<div class="system">
+<span class="dot"></span> System Operational
+<div style="color:#667694;font-size:11px;margin-top:7px;">
+All core services online
+</div>
+</div>
 </aside>
 
-
-<!-- MAIN -->
 <main class="main">
 
-  <!-- TOP -->
-  <div class="topbar">
-    <div>
-      <h1>AI Command Center</h1>
-      <p>Predictive Civic Intelligence Dashboard</p>
-    </div>
+<div class="topbar">
+<div>
+<h1>AI Command Center</h1>
+<p>Predictive Civic Intelligence Dashboard</p>
+</div>
+<div class="status">● AI ONLINE</div>
+</div>
 
-    <div class="status">
-      ● AI ONLINE
-    </div>
-  </div>
+<section class="cards">
 
+<div class="card">
+<div class="card-title">CAMPUS SAFETY</div>
+<div class="value green">94.8%</div>
+<div class="change">↑ 3.2% from previous period</div>
+</div>
 
-  <!-- METRICS -->
-  <section class="cards">
+<div class="card">
+<div class="card-title">AI RISK SCORE</div>
+<div class="value yellow">27</div>
+<div class="change">Moderate risk detected</div>
+</div>
 
-    <div class="card">
-      <div class="card-title">CAMPUS SAFETY</div>
-      <div class="value green">94.8%</div>
-      <div class="change">↑ 3.2% from previous period</div>
-    </div>
+<div class="card">
+<div class="card-title">ACTIVE INCIDENTS</div>
+<div class="value red">03</div>
+<div class="change">2 requiring attention</div>
+</div>
 
-    <div class="card">
-      <div class="card-title">AI RISK SCORE</div>
-      <div class="value yellow">27</div>
-      <div class="change">Moderate risk detected</div>
-    </div>
+<div class="card">
+<div class="card-title">AI RESPONSE RATE</div>
+<div class="value cyan">98.2%</div>
+<div class="change">↑ 1.8% efficiency</div>
+</div>
 
-    <div class="card">
-      <div class="card-title">ACTIVE INCIDENTS</div>
-      <div class="value red">03</div>
-      <div class="change">2 requiring attention</div>
-    </div>
+</section>
 
-    <div class="card">
-      <div class="card-title">AI RESPONSE RATE</div>
-      <div class="value cyan">98.2%</div>
-      <div class="change">↑ 1.8% efficiency</div>
-    </div>
+<section class="grid">
 
-  </section>
+<div class="panel">
+<h2>Predictive Intelligence</h2>
+<div class="panel-sub">AI-generated environmental & operational activity</div>
 
+<div class="graph">
+<div class="bar" style="height:45%"></div>
+<div class="bar" style="height:62%"></div>
+<div class="bar" style="height:51%"></div>
+<div class="bar" style="height:76%"></div>
+<div class="bar" style="height:68%"></div>
+<div class="bar" style="height:84%"></div>
+<div class="bar" style="height:72%"></div>
+<div class="bar" style="height:91%"></div>
+<div class="bar" style="height:78%"></div>
+<div class="bar" style="height:88%"></div>
+<div class="bar" style="height:67%"></div>
+<div class="bar" style="height:80%"></div>
+</div>
 
-  <!-- ANALYTICS + RISK -->
-  <section class="grid">
+<div class="labels">
+<span>08:00</span><span>10:00</span><span>12:00</span>
+<span>14:00</span><span>16:00</span><span>18:00</span>
+</div>
+</div>
 
-    <div class="panel">
+<div class="panel">
+<h2>Current Risk Level</h2>
+<div class="risk">
+<div class="circle">
+<strong>27</strong>
+<span>MODERATE</span>
+</div>
+</div>
+</div>
 
-      <h2>Predictive Intelligence</h2>
+</section>
 
-      <div class="panel-sub">
-        AI-generated environmental & operational activity
-      </div>
+<section class="panel">
+<h2>Live Incident Intelligence</h2>
 
-      <div class="graph">
+<div class="alert">
+<div class="alert-icon">⚠️</div>
+<div>
+<h3>Unusual Crowd Density</h3>
+<p>North Campus • AI confidence 91%</p>
+</div>
+</div>
 
-        <div class="bar" style="height:45%"></div>
-        <div class="bar" style="height:62%"></div>
-        <div class="bar" style="height:51%"></div>
-        <div class="bar" style="height:76%"></div>
-        <div class="bar" style="height:68%"></div>
-        <div class="bar" style="height:84%"></div>
-        <div class="bar" style="height:72%"></div>
-        <div class="bar" style="height:91%"></div>
-        <div class="bar" style="height:78%"></div>
-        <div class="bar" style="height:88%"></div>
-        <div class="bar" style="height:67%"></div>
-        <div class="bar" style="height:80%"></div>
+<div class="alert">
+<div class="alert-icon">🌡️</div>
+<div>
+<h3>Temperature Anomaly</h3>
+<p>Engineering Block • AI confidence 87%</p>
+</div>
+</div>
 
-      </div>
+<div class="alert">
+<div class="alert-icon">💧</div>
+<div>
+<h3>Water Consumption Spike</h3>
+<p>Residential Zone • AI confidence 82%</p>
+</div>
+</div>
+</section>
 
-      <div class="labels">
-        <span>08:00</span>
-        <span>10:00</span>
-        <span>12:00</span>
-        <span>14:00</span>
-        <span>16:00</span>
-        <span>18:00</span>
-      </div>
+<br>
 
-    </div>
+<section class="panel">
+<h2>Autonomous Response Status</h2>
 
+<div class="response">
 
-    <div class="panel">
+<div class="response-card">
+<h3>🚨 Emergency Detection</h3>
+<p>Real-time incident monitoring and automated threat classification.</p>
+<div class="progress"><span style="width:96%"></span></div>
+</div>
 
-      <h2>Current Risk Level</h2>
+<div class="response-card">
+<h3>🤖 AI Decision Engine</h3>
+<p>Predictive models continuously evaluate campus conditions.</p>
+<div class="progress"><span style="width:91%"></span></div>
+</div>
 
-      <div class="risk">
+<div class="response-card">
+<h3>🌐 Digital Twin</h3>
+<p>Virtual campus environment synchronized with operational data.</p>
+<div class="progress"><span style="width:88%"></span></div>
+</div>
 
-        <div class="circle">
-          <strong>27</strong>
-          <span>MODERATE</span>
-        </div>
+</div>
+</section>
 
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ALERTS -->
-  <section class="panel">
-
-    <h2>Live Incident Intelligence</h2>
-
-    <div class="alert">
-
-      <div class="alert-icon">⚠️</div>
-
-      <div>
-        <h3>Unusual Crowd Density</h3>
-        <p>North Campus • AI confidence 91%</p>
-      </div>
-
-    </div>
-
-
-    <div class="alert">
-
-      <div class="alert-icon">🌡️</div>
-
-      <div>
-        <h3>Temperature Anomaly</h3>
-        <p>Engineering Block • AI confidence 87%</p>
-      </div>
-
-    </div>
-
-
-    <div class="alert">
-
-      <div class="alert-icon">💧</div>
-
-      <div>
-        <h3>Water Consumption Spike</h3>
-        <p>Residential Zone • AI confidence 82%</p>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <br>
-
-
-  <!-- RESPONSE -->
-  <section class="panel">
-
-    <h2>Autonomous Response Status</h2>
-
-    <div class="response">
-
-      <div class="response-card">
-        <h3>🚨 Emergency Detection</h3>
-        <p>Real-time incident monitoring and automated threat classification.</p>
-
-        <div class="progress">
-          <span style="width:96%"></span>
-        </div>
-      </div>
-
-
-      <div class="response-card">
-        <h3>🤖 AI Decision Engine</h3>
-        <p>Predictive models continuously evaluate campus conditions.</p>
-
-        <div class="progress">
-          <span style="width:91%"></span>
-        </div>
-      </div>
-
-
-      <div class="response-card">
-        <h3>🌐 Digital Twin</h3>
-        <p>Virtual campus environment synchronized with operational data.</p>
-
-        <div class="progress">
-          <span style="width:88%"></span>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <footer>
-    KRYPTARA-X © 2026 • AI-Powered Predictive Civic Intelligence
-  </footer>
+<footer>
+KRYPTARA-X © 2026 • AI-Powered Predictive Civic Intelligence
+</footer>
 
 </main>
-
 </body>
 </html>
