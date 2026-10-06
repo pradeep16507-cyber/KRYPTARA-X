@@ -113,31 +113,26 @@
             </div>
 
             <div class="relative bg-slate-950 rounded-lg border border-slate-800 h-72 flex-1 flex flex-wrap p-4 gap-4 items-center justify-center overflow-hidden">
-                <!-- Grid background simulation -->
                 <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
 
-                <!-- Campus Zone 1: Academic Block -->
                 <div class="relative z-10 w-36 h-28 border border-cyan-500/40 bg-cyan-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-cyan-400 transition cursor-pointer">
                     <span class="text-xs font-bold text-cyan-300">Academic Hub</span>
                     <span class="text-[10px] text-slate-400">HVAC: Adaptive</span>
                     <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
                 </div>
 
-                <!-- Campus Zone 2: Tech Lab Complex -->
                 <div class="relative z-10 w-36 h-28 border border-amber-500/40 bg-amber-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-amber-400 transition cursor-pointer">
                     <span class="text-xs font-bold text-amber-300">Data & Labs</span>
                     <span class="text-[10px] text-slate-400">High Load Detected</span>
                     <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
                 </div>
 
-                <!-- Campus Zone 3: Smart Hostel / Quarters -->
                 <div class="relative z-10 w-36 h-28 border border-emerald-500/40 bg-emerald-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-emerald-400 transition cursor-pointer">
                     <span class="text-xs font-bold text-emerald-300">Hostel Matrix</span>
                     <span class="text-[10px] text-slate-400">Water Tank: 89%</span>
                     <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
                 </div>
 
-                <!-- Campus Zone 4: Parking & Security Gate -->
                 <div class="relative z-10 w-36 h-28 border border-indigo-500/40 bg-indigo-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-indigo-400 transition cursor-pointer">
                     <span class="text-xs font-bold text-indigo-300">Main Perimeter</span>
                     <span class="text-[10px] text-slate-400">ANPR Gate Active</span>
@@ -191,10 +186,8 @@
     </footer>
 
     <script>
-        // Init Lucide Icons
         lucide.createIcons();
 
-        // Clock Update
         function updateClock() {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString();
@@ -202,7 +195,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Chart.js Setup for AI Predictions
         const ctx = document.getElementById('predictionChart').getContext('2d');
         const predictionChart = new Chart(ctx, {
             type: 'line',
@@ -240,7 +232,6 @@
             }
         });
 
-        // Simulated Real-Time Updates
         setInterval(() => {
             const randomEnergy = (400 + Math.floor(Math.random() * 25));
             document.getElementById('energy-val').innerText = randomEnergy + ' kW';
