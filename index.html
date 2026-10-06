@@ -1,288 +1,604 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>KRYPTARA-X | Smart Campus Intelligence</title>
+<title>KRYPTARA-X | AI Command Center</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-    body {
-      background: #050816;
-      color: white;
-    }
+body{
+  background:#050816;
+  color:#fff;
+  min-height:100vh;
+}
 
-    header {
-      width: 100%;
-      padding: 22px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #1b2545;
-    }
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  width:240px;
+  height:100vh;
+  background:#080d20;
+  border-right:1px solid #1b294d;
+  padding:25px 18px;
+}
 
-    .logo {
-      font-size: 25px;
-      font-weight: bold;
-      color: #00eaff;
-      letter-spacing: 2px;
-    }
+.logo{
+  font-size:23px;
+  font-weight:bold;
+  color:#00eaff;
+  letter-spacing:2px;
+  margin-bottom:45px;
+}
 
-    nav a {
-      color: #d9e4ff;
-      text-decoration: none;
-      margin-left: 30px;
-      font-size: 15px;
-    }
+.logo small{
+  display:block;
+  font-size:9px;
+  color:#7281a8;
+  letter-spacing:1px;
+  margin-top:6px;
+}
 
-    nav a:hover {
-      color: #00eaff;
-    }
+.menu a{
+  display:block;
+  color:#9caaca;
+  text-decoration:none;
+  padding:14px 15px;
+  margin:7px 0;
+  border-radius:9px;
+}
 
-    .hero {
-      min-height: 85vh;
-      display: flex;
-      align-items: center;
-      padding: 70px 8%;
-      background:
-        radial-gradient(circle at 70% 40%, #12366b 0%, transparent 35%),
-        #050816;
-    }
+.menu a:hover,
+.menu .active{
+  background:#102344;
+  color:#00eaff;
+}
 
-    .hero-content {
-      max-width: 750px;
-    }
+.system{
+  position:absolute;
+  bottom:25px;
+  left:18px;
+  right:18px;
+  padding:15px;
+  border:1px solid #1c3155;
+  border-radius:10px;
+}
 
-    .badge {
-      display: inline-block;
-      padding: 8px 15px;
-      border: 1px solid #00eaff;
-      border-radius: 30px;
-      color: #00eaff;
-      margin-bottom: 25px;
-      font-size: 13px;
-    }
+.dot{
+  display:inline-block;
+  width:9px;
+  height:9px;
+  background:#22e38a;
+  border-radius:50%;
+  margin-right:7px;
+}
 
-    h1 {
-      font-size: clamp(45px, 7vw, 85px);
-      line-height: 1;
-      margin-bottom: 25px;
-    }
+/* MAIN */
+.main{
+  margin-left:240px;
+  padding:25px 35px;
+}
 
-    h1 span {
-      color: #00eaff;
-    }
+/* TOPBAR */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+}
 
-    .hero p {
-      color: #aebbd7;
-      font-size: 18px;
-      line-height: 1.7;
-      max-width: 650px;
-      margin-bottom: 35px;
-    }
+.topbar h1{
+  font-size:27px;
+}
 
-    .buttons {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+.topbar p{
+  color:#7786a8;
+  margin-top:6px;
+}
 
-    .btn {
-      padding: 14px 25px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.status{
+  border:1px solid #1d3856;
+  padding:11px 17px;
+  border-radius:8px;
+  color:#63f0b0;
+}
 
-    .primary {
-      background: #00eaff;
-      color: #001018;
-    }
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:25px;
+}
 
-    .secondary {
-      border: 1px solid #33466f;
-      color: white;
-    }
+.card{
+  background:#0a1126;
+  border:1px solid #1a2a4c;
+  border-radius:13px;
+  padding:22px;
+}
 
-    .features {
-      padding: 80px 8%;
-      background: #070b1c;
-    }
+.card-title{
+  color:#7e8cae;
+  font-size:13px;
+  margin-bottom:13px;
+}
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 50px;
-    }
+.value{
+  font-size:31px;
+  font-weight:bold;
+}
 
-    .section-title h2 {
-      font-size: 38px;
-      margin-bottom: 12px;
-    }
+.green{
+  color:#45e69b;
+}
 
-    .section-title p {
-      color: #8f9bb7;
-    }
+.cyan{
+  color:#00eaff;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 22px;
-    }
+.yellow{
+  color:#ffd45c;
+}
 
-    .card {
-      padding: 30px;
-      background: #0b1126;
-      border: 1px solid #1b2a4d;
-      border-radius: 15px;
-      transition: 0.3s;
-    }
+.red{
+  color:#ff647c;
+}
 
-    .card:hover {
-      transform: translateY(-7px);
-      border-color: #00eaff;
-    }
+.change{
+  color:#7182a5;
+  font-size:12px;
+  margin-top:9px;
+}
 
-    .icon {
-      font-size: 35px;
-      margin-bottom: 20px;
-    }
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+  margin-bottom:20px;
+}
 
-    .card h3 {
-      margin-bottom: 12px;
-    }
+.panel{
+  background:#0a1126;
+  border:1px solid #1a2a4c;
+  border-radius:13px;
+  padding:23px;
+}
 
-    .card p {
-      color: #8996b5;
-      line-height: 1.6;
-    }
+.panel h2{
+  font-size:18px;
+  margin-bottom:20px;
+}
 
-    footer {
-      padding: 25px 8%;
-      text-align: center;
-      color: #6f7b98;
-      border-top: 1px solid #1b2545;
-    }
-  </style>
+.panel-sub{
+  color:#7181a3;
+  font-size:12px;
+  margin-top:-14px;
+  margin-bottom:20px;
+}
+
+/* GRAPH */
+.graph{
+  height:220px;
+  display:flex;
+  align-items:flex-end;
+  gap:12px;
+  padding:15px 5px 0;
+  border-bottom:1px solid #263653;
+}
+
+.bar{
+  flex:1;
+  background:linear-gradient(to top,#00eaff,#314cff);
+  border-radius:5px 5px 0 0;
+  min-height:30px;
+  opacity:.8;
+}
+
+.labels{
+  display:flex;
+  justify-content:space-between;
+  color:#667694;
+  font-size:11px;
+  margin-top:10px;
+}
+
+/* RISK */
+.risk{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:180px;
+}
+
+.circle{
+  width:145px;
+  height:145px;
+  border-radius:50%;
+  border:14px solid #ffca52;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  box-shadow:0 0 35px rgba(255,202,82,.15);
+}
+
+.circle strong{
+  font-size:37px;
+}
+
+.circle span{
+  color:#8290ae;
+  font-size:12px;
+}
+
+/* ALERTS */
+.alert{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  background:#0c152d;
+  border:1px solid #1a2b4c;
+  border-radius:9px;
+  margin-bottom:10px;
+}
+
+.alert-icon{
+  width:35px;
+  height:35px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  background:#21152a;
+}
+
+.alert h3{
+  font-size:13px;
+}
+
+.alert p{
+  color:#7281a0;
+  font-size:11px;
+  margin-top:4px;
+}
+
+/* RESPONSE */
+.response{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.response-card{
+  padding:18px;
+  border-radius:10px;
+  background:#0c152c;
+  border:1px solid #1b2c4d;
+}
+
+.response-card h3{
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.response-card p{
+  color:#7786a6;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.progress{
+  height:6px;
+  background:#1a2945;
+  border-radius:10px;
+  margin-top:13px;
+  overflow:hidden;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  background:#00eaff;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  color:#52617f;
+  padding:25px;
+  font-size:12px;
+}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+
+  .sidebar{
+    width:190px;
+  }
+
+  .main{
+    margin-left:190px;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+  }
+
+  .system{
+    position:relative;
+    left:auto;
+    right:auto;
+    bottom:auto;
+    margin-top:20px;
+  }
+
+  .main{
+    margin-left:0;
+    padding:20px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .response{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">KRYPTARA-X</div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <nav>
-      <a href="#">Home</a>
-      <a href="#features">Systems</a>
-      <a href="#about">About</a>
-    </nav>
-  </header>
+  <div class="logo">
+    KRYPTARA-X
+    <small>AI CIVIC INTELLIGENCE</small>
+  </div>
 
-  <section class="hero">
+  <div class="menu">
+    <a href="#" class="active">◈ Dashboard</a>
+    <a href="#">◉ Digital Twin</a>
+    <a href="#">◉ AI Predictions</a>
+    <a href="#">⚠ Incident Center</a>
+    <a href="#">▣ Analytics</a>
+    <a href="#">⚙ System Control</a>
+  </div>
 
-    <div class="hero-content">
+  <div class="system">
+    <span class="dot"></span>
+    System Operational
+    <div style="color:#667694;font-size:11px;margin-top:7px;">
+      All core services online
+    </div>
+  </div>
 
-      <div class="badge">
-        AI-POWERED CIVIC INTELLIGENCE
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOP -->
+  <div class="topbar">
+    <div>
+      <h1>AI Command Center</h1>
+      <p>Predictive Civic Intelligence Dashboard</p>
+    </div>
+
+    <div class="status">
+      ● AI ONLINE
+    </div>
+  </div>
+
+
+  <!-- METRICS -->
+  <section class="cards">
+
+    <div class="card">
+      <div class="card-title">CAMPUS SAFETY</div>
+      <div class="value green">94.8%</div>
+      <div class="change">↑ 3.2% from previous period</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">AI RISK SCORE</div>
+      <div class="value yellow">27</div>
+      <div class="change">Moderate risk detected</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">ACTIVE INCIDENTS</div>
+      <div class="value red">03</div>
+      <div class="change">2 requiring attention</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">AI RESPONSE RATE</div>
+      <div class="value cyan">98.2%</div>
+      <div class="change">↑ 1.8% efficiency</div>
+    </div>
+
+  </section>
+
+
+  <!-- ANALYTICS + RISK -->
+  <section class="grid">
+
+    <div class="panel">
+
+      <h2>Predictive Intelligence</h2>
+
+      <div class="panel-sub">
+        AI-generated environmental & operational activity
       </div>
 
-      <h1>
-        Predict.<br>
-        Protect.<br>
-        <span>Respond.</span>
-      </h1>
+      <div class="graph">
 
-      <p>
-        KRYPTARA-X is an AI-powered Predictive Civic Intelligence
-        Digital Twin designed to monitor, predict and respond to
-        smart campus and civic challenges in real time.
-      </p>
+        <div class="bar" style="height:45%"></div>
+        <div class="bar" style="height:62%"></div>
+        <div class="bar" style="height:51%"></div>
+        <div class="bar" style="height:76%"></div>
+        <div class="bar" style="height:68%"></div>
+        <div class="bar" style="height:84%"></div>
+        <div class="bar" style="height:72%"></div>
+        <div class="bar" style="height:91%"></div>
+        <div class="bar" style="height:78%"></div>
+        <div class="bar" style="height:88%"></div>
+        <div class="bar" style="height:67%"></div>
+        <div class="bar" style="height:80%"></div>
 
-      <div class="buttons">
-        <a href="#features" class="btn primary">
-          Explore System
-        </a>
+      </div>
 
-        <a href="#about" class="btn secondary">
-          Learn More
-        </a>
+      <div class="labels">
+        <span>08:00</span>
+        <span>10:00</span>
+        <span>12:00</span>
+        <span>14:00</span>
+        <span>16:00</span>
+        <span>18:00</span>
+      </div>
+
+    </div>
+
+
+    <div class="panel">
+
+      <h2>Current Risk Level</h2>
+
+      <div class="risk">
+
+        <div class="circle">
+          <strong>27</strong>
+          <span>MODERATE</span>
+        </div>
+
       </div>
 
     </div>
 
   </section>
 
-  <section class="features" id="features">
 
-    <div class="section-title">
-      <h2>Core Intelligence Systems</h2>
-      <p>Next-generation AI infrastructure for smarter environments.</p>
+  <!-- ALERTS -->
+  <section class="panel">
+
+    <h2>Live Incident Intelligence</h2>
+
+    <div class="alert">
+
+      <div class="alert-icon">⚠️</div>
+
+      <div>
+        <h3>Unusual Crowd Density</h3>
+        <p>North Campus • AI confidence 91%</p>
+      </div>
+
     </div>
 
-    <div class="cards">
 
-      <div class="card">
-        <div class="icon">🧠</div>
-        <h3>Predictive AI</h3>
-        <p>
-          Analyze real-time data and predict potential civic
-          and campus incidents before they occur.
-        </p>
+    <div class="alert">
+
+      <div class="alert-icon">🌡️</div>
+
+      <div>
+        <h3>Temperature Anomaly</h3>
+        <p>Engineering Block • AI confidence 87%</p>
       </div>
 
-      <div class="card">
-        <div class="icon">🌐</div>
-        <h3>Digital Twin</h3>
-        <p>
-          Create a virtual representation of campus infrastructure,
-          resources and environmental conditions.
-        </p>
-      </div>
+    </div>
 
-      <div class="card">
-        <div class="icon">🚨</div>
-        <h3>Smart Response</h3>
-        <p>
-          Automatically identify incidents and recommend
-          intelligent response strategies.
-        </p>
-      </div>
 
-      <div class="card">
-        <div class="icon">📊</div>
-        <h3>Live Intelligence</h3>
-        <p>
-          Transform live sensor and system data into
-          meaningful operational intelligence.
-        </p>
+    <div class="alert">
+
+      <div class="alert-icon">💧</div>
+
+      <div>
+        <h3>Water Consumption Spike</h3>
+        <p>Residential Zone • AI confidence 82%</p>
       </div>
 
     </div>
 
   </section>
 
-  <section class="features" id="about">
 
-    <div class="section-title">
-      <h2>Built for the Future</h2>
-      <p>
-        KRYPTARA-X connects AI, predictive analytics,
-        digital twins and autonomous response into one platform.
-      </p>
+  <br>
+
+
+  <!-- RESPONSE -->
+  <section class="panel">
+
+    <h2>Autonomous Response Status</h2>
+
+    <div class="response">
+
+      <div class="response-card">
+        <h3>🚨 Emergency Detection</h3>
+        <p>Real-time incident monitoring and automated threat classification.</p>
+
+        <div class="progress">
+          <span style="width:96%"></span>
+        </div>
+      </div>
+
+
+      <div class="response-card">
+        <h3>🤖 AI Decision Engine</h3>
+        <p>Predictive models continuously evaluate campus conditions.</p>
+
+        <div class="progress">
+          <span style="width:91%"></span>
+        </div>
+      </div>
+
+
+      <div class="response-card">
+        <h3>🌐 Digital Twin</h3>
+        <p>Virtual campus environment synchronized with operational data.</p>
+
+        <div class="progress">
+          <span style="width:88%"></span>
+        </div>
+      </div>
+
     </div>
 
   </section>
+
 
   <footer>
-    © 2026 KRYPTARA-X — Smart Intelligence Platform
+    KRYPTARA-X © 2026 • AI-Powered Predictive Civic Intelligence
   </footer>
+
+</main>
 
 </body>
 </html>
-
