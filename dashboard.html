@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KRYPTARA-X AI Command Center</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #050b14;
+            color: white;
+        }
+
+        header {
+            padding: 20px;
+            background: #0b1625;
+            border-bottom: 1px solid #12304a;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #00eaff;
+        }
+
+        .status {
+            color: #00ff88;
+            margin-top: 8px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #0c1827;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #12304a;
+        }
+
+        .card h2 {
+            color: #00eaff;
+        }
+
+        .value {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .online {
+            color: #00ff88;
+        }
+
+        .warning {
+            color: #ffd000;
+        }
+
+        .danger {
+            color: #ff4050;
+        }
+
+        .activity {
+            margin-top: 25px;
+        }
+
+        .activity p {
+            padding: 12px;
+            background: #081321;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 12px 22px;
+            background: #00eaff;
+            border: none;
+            border-radius: 7px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🧠 KRYPTARA-X AI COMMAND CENTER</h1>
+    <div class="status">● SYSTEM ONLINE</div>
+</header>
+
+<div class="container">
+
+    <h2>Live Intelligence Dashboard</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <h2>🤖 AI Prediction</h2>
+            <div class="value">94%</div>
+            <p>Prediction Accuracy</p>
+        </div>
+
+        <div class="card">
+            <h2>⚠️ Risk Score</h2>
+            <div class="value warning">23%</div>
+            <p>Current Campus Risk</p>
+        </div>
+
+        <div class="card">
+            <h2>🚨 Threat Detection</h2>
+            <div class="value online">SAFE</div>
+            <p>No active threats detected</p>
+        </div>
+
+        <div class="card">
+            <h2>📡 IoT Sensors</h2>
+            <div class="value">128</div>
+            <p>Active Sensors</p>
+        </div>
+
+        <div class="card">
+            <h2>🌐 Digital Twin</h2>
+            <div class="value online">LIVE</div>
+            <p>Campus model synchronized</p>
+        </div>
+
+        <div class="card">
+            <h2>⚡ Response System</h2>
+            <div class="value online">READY</div>
+            <p>Autonomous response enabled</p>
+        </div>
+
+    </div>
+
+    <div class="activity">
+
+        <h2>📋 Live Activity Feed</h2>
+
+        <p>🟢 Security system online</p>
+        <p>🟢 IoT sensors connected</p>
+        <p>🟢 AI prediction engine active</p>
+        <p>🟡 Monitoring campus environment...</p>
+
+        <button onclick="goHome()">← Back to Home</button>
+
+    </div>
+
+</div>
+
+<script>
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>
