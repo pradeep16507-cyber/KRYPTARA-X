@@ -765,6 +765,22 @@ function updateSensors(){
         '<div class="feed">🟢 Sensors online: ' +
         sensors + '</div>';
 }
+ setInterval(function(){
+
+    let bars = document.querySelectorAll(
+        '.panel div[style*="height"]'
+    );
+
+    bars.forEach(function(bar){
+
+        let height =
+            Math.floor(Math.random() * 65) + 25;
+
+        bar.style.height = height + "%";
+
+    });
+
+},3000);   
 </script>
 <div class="panel" style="margin-top:30px;">
 
