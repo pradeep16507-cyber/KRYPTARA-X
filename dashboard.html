@@ -3,175 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>KRYPTARA-X | AI Command Center</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #030812;
-    color: #ffffff;
+body{
+    background:#050b14;
+    color:white;
+    min-height:100vh;
 }
 
-header {
-    background: #071321;
-    border-bottom: 1px solid #17334d;
-    padding: 18px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+header{
+    padding:20px 40px;
+    background:#081321;
+    border-bottom:1px solid #1c344d;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.logo {
-    color: #00eaff;
-    font-size: 24px;
-    font-weight: bold;
+.logo{
+    font-size:25px;
+    font-weight:bold;
 }
 
-.status {
-    color: #00ff88;
-    font-weight: bold;
+.status{
+    color:#00ff88;
+    font-weight:bold;
 }
 
-.container {
-    padding: 28px;
+.container{
+    padding:35px;
 }
 
-.title {
-    margin-bottom: 25px;
+.title{
+    margin-bottom:30px;
 }
 
-.title h1 {
-    margin: 0;
-    color: #00eaff;
-    font-size: 32px;
+.title h1{
+    font-size:38px;
 }
 
-.title p {
-    color: #8fa8bd;
+.title p{
+    color:#8ca4bd;
+    margin-top:8px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
 }
 
-.card {
-    background: #081523;
-    border: 1px solid #16344d;
-    border-radius: 14px;
-    padding: 22px;
-    min-height: 140px;
+.card{
+    background:#0b1828;
+    border:1px solid #1c344d;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 0 20px rgba(0,150,255,.08);
 }
 
-.card h3 {
-    margin-top: 0;
-    color: #8fa8bd;
+.card h3{
+    color:#8ca4bd;
+    font-size:15px;
 }
 
-.value {
-    font-size: 34px;
-    font-weight: bold;
-    margin: 12px 0;
+.value{
+    font-size:35px;
+    font-weight:bold;
+    margin-top:12px;
 }
 
-.green {
-    color: #00ff88;
+.green{
+    color:#00ff88;
 }
 
-.yellow {
-    color: #ffd000;
+.blue{
+    color:#00aaff;
 }
 
-.red {
-    color: #ff4050;
+.yellow{
+    color:#ffd000;
 }
 
-.blue {
-    color: #00eaff;
+.red{
+    color:#ff4d4d;
 }
 
-.section {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
+.section{
+    margin-top:30px;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
 }
 
-.panel {
-    background: #081523;
-    border: 1px solid #16344d;
-    border-radius: 14px;
-    padding: 22px;
+.panel{
+    background:#0b1828;
+    border:1px solid #1c344d;
+    border-radius:15px;
+    padding:25px;
 }
 
-.panel h2 {
-    color: #00eaff;
-    margin-top: 0;
+.panel h2{
+    margin-bottom:20px;
 }
 
-.bar {
-    height: 15px;
-    background: #172738;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 12px 0 20px;
+.progress{
+    margin:20px 0;
 }
 
-.fill {
-    height: 100%;
-    width: 72%;
-    background: #00eaff;
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
 }
 
-.feed {
-    background: #050e19;
-    border-radius: 8px;
-    padding: 12px;
-    margin: 10px 0;
+.bar{
+    height:10px;
+    background:#17283a;
+    border-radius:10px;
+    overflow:hidden;
 }
 
-button {
-    background: #00eaff;
-    color: #001018;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-weight: bold;
-    cursor: pointer;
+.fill{
+    height:100%;
+    width:70%;
+    background:#00aaff;
 }
 
-button:hover {
-    background: white;
+.fill.greenbar{
+    width:85%;
+    background:#00ff88;
 }
 
-.back {
-    margin-top: 25px;
+.fill.yellowbar{
+    width:45%;
+    background:#ffd000;
 }
 
-@media(max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
+.feed{
+    padding:12px;
+    margin-top:10px;
+    background:#07111e;
+    border-radius:8px;
+    color:#a9c0d6;
+}
+
+.buttons{
+    margin-top:30px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+button{
+    padding:14px 22px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#008cff;
+    color:white;
+    font-weight:bold;
+}
+
+button:hover{
+    opacity:.8;
+}
+
+.response{
+    background:#ff1744;
+}
+
+.home{
+    background:#26384c;
+}
+
+@media(max-width:900px){
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .section {
-        grid-template-columns: 1fr;
+    .section{
+        grid-template-columns:1fr;
     }
 }
 
-@media(max-width: 600px) {
-    .grid {
-        grid-template-columns: 1fr;
+@media(max-width:600px){
+    .cards{
+        grid-template-columns:1fr;
     }
 
-    header {
-        flex-direction: column;
-        gap: 10px;
+    header{
+        padding:20px;
+    }
+
+    .container{
+        padding:20px;
     }
 }
 </style>
@@ -188,33 +222,29 @@ button:hover {
 
     <div class="title">
         <h1>AI COMMAND CENTER</h1>
-        <p>Predictive Civic Intelligence & Smart Campus Monitoring</p>
+        <p>Predictive Civic Intelligence & Autonomous Response System</p>
     </div>
 
-    <div class="grid">
+    <div class="cards">
 
         <div class="card">
-            <h3>🤖 AI PREDICTION</h3>
-            <div class="value blue">94%</div>
-            <p>Prediction confidence</p>
+            <h3>AI PREDICTION</h3>
+            <div class="value blue" id="prediction">94%</div>
         </div>
 
         <div class="card">
-            <h3>⚠️ RISK SCORE</h3>
-            <div class="value yellow" id="risk">23%</div>
-            <p>Current campus risk</p>
+            <h3>RISK SCORE</h3>
+            <div class="value green" id="risk">23%</div>
         </div>
 
         <div class="card">
-            <h3>🚨 THREAT LEVEL</h3>
-            <div class="value green">LOW</div>
-            <p>No active threats</p>
+            <h3>THREAT LEVEL</h3>
+            <div class="value green" id="threat">LOW</div>
         </div>
 
         <div class="card">
-            <h3>📡 IoT SENSORS</h3>
-            <div class="value blue">128</div>
-            <p>Active sensors</p>
+            <h3>IoT SENSORS</h3>
+            <div class="value blue" id="sensors">128</div>
         </div>
 
     </div>
@@ -222,37 +252,64 @@ button:hover {
     <div class="section">
 
         <div class="panel">
+
             <h2>📊 Campus Risk Analytics</h2>
 
-            <p>Security Monitoring</p>
-            <div class="bar">
-                <div class="fill" style="width:82%"></div>
+            <div class="progress">
+                <div class="progress-top">
+                    <span>Security</span>
+                    <span>85%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="fill greenbar"></div>
+                </div>
             </div>
 
-            <p>Environmental Safety</p>
-            <div class="bar">
-                <div class="fill" style="width:68%"></div>
+            <div class="progress">
+                <div class="progress-top">
+                    <span>Infrastructure</span>
+                    <span>70%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="fill"></div>
+                </div>
             </div>
 
-            <p>Infrastructure Health</p>
-            <div class="bar">
-                <div class="fill" style="width:91%"></div>
+            <div class="progress">
+                <div class="progress-top">
+                    <span>Emergency Risk</span>
+                    <span>45%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="fill yellowbar"></div>
+                </div>
             </div>
 
-            <button onclick="runAI()">🤖 Run AI Analysis</button>
         </div>
 
         <div class="panel">
+
             <h2>🌐 Digital Twin</h2>
 
-            <p>Campus Model</p>
-            <div class="value green">LIVE</div>
+            <div class="feed">
+                🏫 Campus Model: ACTIVE
+            </div>
 
-            <p>Buildings: <b>24</b></p>
-            <p>Connected Devices: <b>342</b></p>
-            <p>Monitoring Zones: <b>18</b></p>
+            <div class="feed">
+                📡 Sensors: CONNECTED
+            </div>
 
-            <button onclick="scanCampus()">🔍 Scan Campus</button>
+            <div class="feed">
+                🤖 AI Engine: RUNNING
+            </div>
+
+            <div class="feed">
+                ⚡ Response: READY
+            </div>
+
         </div>
 
     </div>
@@ -260,64 +317,150 @@ button:hover {
     <div class="section">
 
         <div class="panel">
-            <h2>📋 Live Activity Feed</h2>
+
+            <h2>📡 Live Activity Feed</h2>
 
             <div id="feed">
-                <div class="feed">🟢 Security system online</div>
-                <div class="feed">🟢 128 IoT sensors connected</div>
-                <div class="feed">🟢 AI prediction engine active</div>
-                <div class="feed">🟡 Campus environment monitoring</div>
+
+                <div class="feed">
+                    🟢 System initialized
+                </div>
+
+                <div class="feed">
+                    📡 128 IoT sensors connected
+                </div>
+
+                <div class="feed">
+                    🧠 AI prediction engine active
+                </div>
+
             </div>
+
         </div>
 
         <div class="panel">
+
             <h2>⚡ Autonomous Response</h2>
 
-            <p>Emergency Response System</p>
+            <p style="color:#8ca4bd;">
+                AI-controlled emergency response system.
+            </p>
 
-            <div class="value green">READY</div>
+            <div class="buttons">
 
-            <button onclick="responseSystem()">
-                ⚡ Activate Response
-            </button>
+                <button onclick="runAI()">
+                    🤖 Run AI Analysis
+                </button>
+
+                <button onclick="scanCampus()">
+                    🔍 Scan Campus
+                </button>
+
+                <button class="response" onclick="responseSystem()">
+                    ⚡ Activate Response
+                </button>
+
+            </div>
+
         </div>
 
     </div>
 
-    <div class="back">
-        <button onclick="goHome()">← Back to Home</button>
+    <div class="buttons">
+
+        <button class="home" onclick="goHome()">
+            ← Back to Home
+        </button>
+
     </div>
 
 </div>
 
+
 <script>
 
-function runAI() {
+function runAI(){
 
-    document.getElementById("risk").innerText = "18%";
+    let risk = Math.floor(Math.random() * 30) + 10;
 
-    const feed = document.getElementById("feed");
+    document.getElementById("risk").innerText = risk + "%";
 
-    feed.innerHTML =
+    document.getElementById("prediction").innerText =
+        (100 - risk) + "%";
+
+    if(risk > 25){
+
+        document.getElementById("threat").innerText = "MEDIUM";
+
+        document.getElementById("threat").className =
+            "value yellow";
+
+    }else{
+
+        document.getElementById("threat").innerText = "LOW";
+
+        document.getElementById("threat").className =
+            "value green";
+    }
+
+    document.getElementById("feed").innerHTML =
+
         '<div class="feed">🤖 AI analysis completed</div>' +
+
+        '<div class="feed">📊 Risk score updated to ' +
+        risk + '%</div>' +
+
         '<div class="feed">🟢 No critical threats detected</div>' +
-        '<div class="feed">🟢 Risk prediction updated</div>' +
-        '<div class="feed">🟢 Campus security stable</div>';
+
+        '<div class="feed">🧠 Predictive model synchronized</div>';
 }
 
-function scanCampus() {
 
-    alert("🔍 KRYPTARA-X scanning campus...\n\nAll monitoring zones are being analyzed.");
+function scanCampus(){
+
+    let sensors =
+        Math.floor(Math.random() * 20) + 120;
+
+    document.getElementById("sensors").innerText =
+        sensors;
+
+    document.getElementById("feed").innerHTML =
+
+        '<div class="feed">🔍 Campus scanning started...</div>' +
+
+        '<div class="feed">📡 ' +
+        sensors +
+        ' sensors responding</div>' +
+
+        '<div class="feed">🟢 Campus zones scanned</div>' +
+
+        '<div class="feed">🟢 No critical anomalies found</div>';
 }
 
-function responseSystem() {
 
-    alert("⚡ AUTONOMOUS RESPONSE SYSTEM\n\nSystem ready for emergency response.");
+function responseSystem(){
+
+    document.getElementById("feed").innerHTML =
+
+        '<div class="feed">⚡ Autonomous response activated</div>' +
+
+        '<div class="feed">🚨 Emergency protocols checked</div>' +
+
+        '<div class="feed">🟢 Response system ready</div>' +
+
+        '<div class="feed">🛡️ Campus protection active</div>';
+
+    alert(
+        "⚡ AUTONOMOUS RESPONSE SYSTEM\n\n" +
+        "System activated successfully!"
+    );
 }
 
-function goHome() {
+
+function goHome(){
 
     window.location.href = "index.html";
+
 }
 
 </script>
