@@ -251,7 +251,51 @@ button:hover{
 
   <div class="panel" style="margin-top:30px;">
 
-    <h2>🗺️ Digital Twin Campus</h2>
+    <h2>🗺️ Digital Twin Campus</h2> 
+      <div style="
+    margin-top:20px;
+    padding:20px;
+    background:#07111e;
+    border:1px solid #1c344d;
+    border-radius:15px;
+">
+
+    <h3>📡 Live Sensor Monitoring</h3>
+
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+        gap:15px;
+        margin-top:15px;
+    ">
+
+        <div class="card">
+            🌡️ Temperature
+            <h2 id="temperature">28°C</h2>
+        </div>
+
+        <div class="card">
+            👥 Crowd Level
+            <h2 id="crowd">42%</h2>
+        </div>
+
+        <div class="card">
+            💨 Air Quality
+            <h2 id="air">Good</h2>
+        </div>
+
+        <div class="card">
+            📡 Active Sensors
+            <h2 id="liveSensors">128</h2>
+        </div>
+
+    </div>
+
+    <button onclick="updateSensors()" style="margin-top:20px;">
+        📡 Update Live Sensors
+    </button>
+
+</div>
       <div style="margin-bottom:20px;">
 
     <button onclick="detectThreat()">
@@ -676,6 +720,50 @@ function activateResponse(){
             "✅ Autonomous response completed";
 
     },4500);
+} 
+function updateSensors(){
+
+    let temperature =
+        Math.floor(Math.random() * 8) + 25;
+
+    let crowd =
+        Math.floor(Math.random() * 60) + 20;
+
+    let sensors =
+        Math.floor(Math.random() * 15) + 120;
+
+    document.getElementById("temperature").innerText =
+        temperature + "°C";
+
+    document.getElementById("crowd").innerText =
+        crowd + "%";
+
+    document.getElementById("liveSensors").innerText =
+        sensors;
+
+    if(crowd > 65){
+
+        document.getElementById("air").innerText =
+            "Moderate";
+
+    }else{
+
+        document.getElementById("air").innerText =
+            "Good";
+    }
+
+    document.getElementById("feed").innerHTML =
+
+        '<div class="feed">📡 Live sensor update received</div>' +
+
+        '<div class="feed">🌡️ Temperature: ' +
+        temperature + '°C</div>' +
+
+        '<div class="feed">👥 Crowd level: ' +
+        crowd + '%</div>' +
+
+        '<div class="feed">🟢 Sensors online: ' +
+        sensors + '</div>';
 }
 </script>
 
