@@ -796,6 +796,39 @@ function updateSensors(){
     });
 
 },3000);   
+function generateAlert(){
+
+    const alertBox =
+        document.getElementById("liveAlert");
+
+    alertBox.innerText =
+        "🚨 SECURITY ALERT — Abnormal activity detected!";
+
+    alertBox.style.color = "#ff4d4d";
+    alertBox.style.borderColor = "#ff1744";
+    alertBox.style.background = "#250711";
+
+    document.getElementById("feed").innerHTML =
+
+        '<div class="feed">🚨 Security alert generated</div>' +
+
+        '<div class="feed">⚠️ Abnormal activity detected</div>' +
+
+        '<div class="feed">🧠 AI analysing threat level...</div>' +
+
+        '<div class="feed">⚡ Response system standing by</div>';
+
+    setTimeout(function(){
+
+        alertBox.innerText =
+            "🟢 ALERT ANALYSED — System monitoring active";
+
+        alertBox.style.color = "#00ff88";
+        alertBox.style.borderColor = "#00ff88";
+        alertBox.style.background = "#07111e";
+
+    },5000);
+}
 </script>
 <div class="panel" style="margin-top:30px;">
 
