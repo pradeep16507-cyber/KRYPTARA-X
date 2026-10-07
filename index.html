@@ -1,9 +1,131 @@
-<script>
-  function startSystem() {
-    alert("KRYPTARA-X AI System launching...");
-  }
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KRYPTARA-X</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #050b14;
+            color: white;
+            text-align: center;
+        }
 
-  function showStatus() {
-    alert("SYSTEM STATUS: ONLINE ✓");
-  }
+        nav {
+            padding: 20px;
+            background: #0b1625;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 20px;
+            font-size: 18px;
+        }
+
+        .hero {
+            padding: 100px 20px;
+        }
+
+        h1 {
+            font-size: 55px;
+            color: #00eaff;
+        }
+
+        p {
+            font-size: 20px;
+            color: #b8c7d9;
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #00eaff;
+            color: #001018;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: white;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: #0d1b2a;
+            padding: 30px;
+            width: 220px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <a href="#">HOME</a>
+    <a href="#dashboard">DASHBOARD</a>
+    <a href="#about">ABOUT</a>
+</nav>
+
+<section class="hero">
+
+    <h1>KRYPTARA-X</h1>
+
+    <p>
+        AI-Powered Predictive Civic Intelligence
+        Digital Twin & Autonomous Smart Campus
+    </p>
+
+    <button onclick="startSystem()">
+        🚀 Launch AI System
+    </button>
+
+    <button onclick="showStatus()">
+        ⚡ System Status
+    </button>
+
+</section>
+
+<section class="cards">
+
+    <div class="card">
+        <h2>🤖 AI Prediction</h2>
+        <p>Predict campus risks using AI.</p>
+    </div>
+
+    <div class="card">
+        <h2>🌐 Digital Twin</h2>
+        <p>Monitor the smart campus.</p>
+    </div>
+
+    <div class="card">
+        <h2>🚨 Response System</h2>
+        <p>Autonomous emergency response.</p>
+    </div>
+
+</section>
+
+<script>
+
+function startSystem() {
+    alert("🚀 KRYPTARA-X AI SYSTEM LAUNCHING...");
+}
+
+function showStatus() {
+    alert("🟢 SYSTEM STATUS: ONLINE");
+}
+
 </script>
+
+</body>
+</html>
