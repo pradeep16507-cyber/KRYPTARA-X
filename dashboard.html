@@ -453,7 +453,32 @@ button:hover{
 
         <div class="panel">
 
-            <h2>⚡ Autonomous Response</h2>
+            <h2>⚡ Autonomous Response</h2> 
+            <div style="
+    margin-top:20px;
+    padding:15px;
+    background:#07111e;
+    border:1px solid #1c344d;
+    border-radius:10px;
+">
+
+    <div id="responseStatus"
+         style="color:#00ff88;font-weight:bold;">
+        🟢 RESPONSE SYSTEM READY
+    </div>
+
+    <div id="responseSteps"
+         style="margin-top:15px;color:#8ca4bd;">
+        Waiting for a threat...
+    </div>
+
+    <button
+        onclick="activateResponse()"
+        style="margin-top:15px;">
+        ⚡ Activate Autonomous Response
+    </button>
+
+</div>
 
             <p style="color:#8ca4bd;">
                 AI-controlled emergency response system.
@@ -602,6 +627,55 @@ function detectThreat(){
             '<div class="feed">🛡️ Threat successfully contained</div>';
 
     },3000);
+}  
+function activateResponse(){
+
+    const status =
+        document.getElementById("responseStatus");
+
+    const steps =
+        document.getElementById("responseSteps");
+
+    status.innerText =
+        "⚡ AUTONOMOUS RESPONSE ACTIVE";
+
+    status.style.color = "#ffd000";
+
+    steps.innerHTML =
+        "🔍 Analysing threat...";
+
+    setTimeout(function(){
+
+        steps.innerHTML =
+            "🧠 AI analysing risk level...";
+
+    },1000);
+
+    setTimeout(function(){
+
+        steps.innerHTML =
+            "🚨 Security alert initiated...";
+
+    },2000);
+
+    setTimeout(function(){
+
+        steps.innerHTML =
+            "🛡️ Threat containment in progress...";
+
+    },3000);
+
+    setTimeout(function(){
+
+        status.innerText =
+            "🟢 THREAT CONTAINED";
+
+        status.style.color = "#00ff88";
+
+        steps.innerHTML =
+            "✅ Autonomous response completed";
+
+    },4500);
 }
 </script>
 
