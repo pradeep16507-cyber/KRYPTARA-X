@@ -252,6 +252,18 @@ button:hover{
   <div class="panel" style="margin-top:30px;">
 
     <h2>🗺️ Digital Twin Campus</h2>
+      <div style="margin-bottom:20px;">
+
+    <button onclick="detectThreat()">
+        🚨 Detect Threat
+    </button>
+
+    <span id="threatStatus"
+          style="margin-left:15px;color:#00ff88;font-weight:bold;">
+        🟢 CAMPUS SAFE
+    </span>
+
+</div>
 
     <div style="
         height:300px;
@@ -563,7 +575,34 @@ function goHome(){
     window.location.href = "index.html";
 
 }
+function detectThreat(){
 
+    const status = document.getElementById("threatStatus");
+
+    status.innerText = "🔴 THREAT DETECTED";
+    status.style.color = "#ff4d4d";
+
+    document.getElementById("feed").innerHTML =
+
+        '<div class="feed">🚨 Threat detection activated</div>' +
+
+        '<div class="feed">⚠️ Abnormal activity detected</div>' +
+
+        '<div class="feed">🔴 Campus risk level increased</div>' +
+
+        '<div class="feed">⚡ Autonomous response preparing</div>';
+
+    setTimeout(function(){
+
+        status.innerText = "🟢 THREAT CONTAINED";
+        status.style.color = "#00ff88";
+
+        document.getElementById("feed").innerHTML +=
+
+            '<div class="feed">🛡️ Threat successfully contained</div>';
+
+    },3000);
+}
 </script>
 
 </body>
