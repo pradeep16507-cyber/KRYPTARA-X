@@ -1,241 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRYPTARA-X | Digital Twin & Autonomous Campus</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.9; }
-        }
-        .animate-radar {
-            animation: pulse-glow 2.5s infinite;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KRYPTARA-X | AI Civic Intelligence</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #050914;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 22px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #172033;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #00e5ff;
+    }
+
+    nav a {
+      color: #9da9bd;
+      text-decoration: none;
+      margin-left: 25px;
+    }
+
+    nav a:hover {
+      color: #00e5ff;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .hero h1 {
+      font-size: 65px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #00e5ff;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      color: #9da9bd;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .buttons {
+      margin-top: 35px;
+    }
+
+    button {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      background: #00e5ff;
+      color: #001018;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 8px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 30px 7% 80px;
+    }
+
+    .card {
+      background: #0b1220;
+      border: 1px solid #17283c;
+      border-radius: 15px;
+      padding: 25px;
+    }
+
+    .card h2 {
+      color: #00e5ff;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #9da9bd;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      border-top: 1px solid #172033;
+      color: #65738a;
+    }
+
+    @media (max-width: 800px) {
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
 
-    <!-- Top Navigation Header -->
-    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-        <div class="flex items-center space-x-3">
-            <div class="h-9 w-9 bg-cyan-500/20 border border-cyan-500 rounded-lg flex items-center justify-center">
-                <i data-lucide="shield-check" class="text-cyan-400"></i>
-            </div>
-            <div>
-                <h1 class="text-lg font-bold tracking-wider text-cyan-400">KRYPTARA-X</h1>
-                <p class="text-xs text-slate-400">AI-Powered Predictive Civic Intelligence Digital Twin</p>
-            </div>
-        </div>
-        <div class="flex items-center space-x-4">
-            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span> Live Twin Sync Active
-            </span>
-            <span class="text-xs text-slate-400 border border-slate-800 px-3 py-1 rounded-md" id="clock">00:00:00</span>
-        </div>
-    </header>
+<body>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto w-full">
+  <header>
+    <div class="logo">KRYPTARA<span>-X</span></div>
 
-        <!-- Metrics Overview (Row of Cards) -->
-        <div class="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Energy Card -->
-            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Campus Grid Load</p>
-                    <h3 class="text-2xl font-bold mt-1 text-slate-100" id="energy-val">412 kW</h3>
-                    <p class="text-xs text-amber-400 mt-1 flex items-center">
-                        <i data-lucide="trending-up" class="w-3.5 h-3.5 mr-1"></i> +8% Expected Peak
-                    </p>
-                </div>
-                <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/20">
-                    <i data-lucide="zap" class="w-6 h-6"></i>
-                </div>
-            </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-            <!-- Water Resource Card -->
-            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Reservoir Levels</p>
-                    <h3 class="text-2xl font-bold mt-1 text-slate-100" id="water-val">78.4%</h3>
-                    <p class="text-xs text-cyan-400 mt-1 flex items-center">
-                        <i data-lucide="check" class="w-3.5 h-3.5 mr-1"></i> Flow Optimal
-                    </p>
-                </div>
-                <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-lg border border-cyan-500/20">
-                    <i data-lucide="droplet" class="w-6 h-6"></i>
-                </div>
-            </div>
+  <section class="hero">
+    <h1>Welcome to <span>KRYPTARA-X</span></h1>
 
-            <!-- Crowd Density Card -->
-            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Zone Congestion</p>
-                    <h3 class="text-2xl font-bold mt-1 text-slate-100" id="crowd-val">Low</h3>
-                    <p class="text-xs text-emerald-400 mt-1 flex items-center">
-                        <i data-lucide="users" class="w-3.5 h-3.5 mr-1"></i> Block A & C Clear
-                    </p>
-                </div>
-                <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg border border-emerald-500/20">
-                    <i data-lucide="activity" class="w-6 h-6"></i>
-                </div>
-            </div>
+    <p>
+      AI-Powered Predictive Civic Intelligence Digital Twin
+      & Autonomous Smart Campus Response System.
+    </p>
 
-            <!-- Autonomous Actions Triggered -->
-            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Autonomous Relays</p>
-                    <h3 class="text-2xl font-bold mt-1 text-slate-100">14 Actions</h3>
-                    <p class="text-xs text-cyan-400 mt-1 flex items-center">
-                        <i data-lucide="cpu" class="w-3.5 h-3.5 mr-1"></i> Zero Manual Override
-                    </p>
-                </div>
-                <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-lg border border-indigo-500/20">
-                    <i data-lucide="bot" class="w-6 h-6"></i>
-                </div>
-            </div>
-        </div>
+    <div class="buttons">
+      <button onclick="startSystem()">Launch AI System</button>
+      <button onclick="showStatus()">System Status</button>
+    </div>
+  </section>
 
-        <!-- Digital Twin Campus Map Simulation -->
-        <div class="lg:col-span-2 bg-slate-900/80 border border-slate-800 p-5 rounded-xl flex flex-col">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="font-semibold text-slate-200 flex items-center">
-                    <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-cyan-400"></i> Smart Campus 2D Digital Twin
-                </h2>
-                <span class="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-400 border border-slate-700">Grid: Live</span>
-            </div>
+  <section class="dashboard" id="dashboard">
 
-            <div class="relative bg-slate-950 rounded-lg border border-slate-800 h-72 flex-1 flex flex-wrap p-4 gap-4 items-center justify-center overflow-hidden">
-                <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+    <div class="card">
+      <h2>🤖 AI Prediction</h2>
+      <p>Predictive intelligence for identifying future civic and campus risks.</p>
+    </div>
 
-                <div class="relative z-10 w-36 h-28 border border-cyan-500/40 bg-cyan-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-cyan-400 transition cursor-pointer">
-                    <span class="text-xs font-bold text-cyan-300">Academic Hub</span>
-                    <span class="text-[10px] text-slate-400">HVAC: Adaptive</span>
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                </div>
+    <div class="card">
+      <h2>🌐 Digital Twin</h2>
+      <p>Real-time virtual representation of smart campus infrastructure.</p>
+    </div>
 
-                <div class="relative z-10 w-36 h-28 border border-amber-500/40 bg-amber-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-amber-400 transition cursor-pointer">
-                    <span class="text-xs font-bold text-amber-300">Data & Labs</span>
-                    <span class="text-[10px] text-slate-400">High Load Detected</span>
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-                </div>
+    <div class="card">
+      <h2>🚨 Response System</h2>
+      <p>Autonomous response and intelligent emergency management.</p>
+    </div>
 
-                <div class="relative z-10 w-36 h-28 border border-emerald-500/40 bg-emerald-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-emerald-400 transition cursor-pointer">
-                    <span class="text-xs font-bold text-emerald-300">Hostel Matrix</span>
-                    <span class="text-[10px] text-slate-400">Water Tank: 89%</span>
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                </div>
+  </section>
 
-                <div class="relative z-10 w-36 h-28 border border-indigo-500/40 bg-indigo-950/20 rounded-lg p-3 flex flex-col justify-between hover:border-indigo-400 transition cursor-pointer">
-                    <span class="text-xs font-bold text-indigo-300">Main Perimeter</span>
-                    <span class="text-[10px] text-slate-400">ANPR Gate Active</span>
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
-                </div>
-            </div>
-        </div>
+  <footer>
+    © 2026 KRYPTARA-X | AI Civic Intelligence
+  </footer>
 
-        <!-- Predictive AI Analysis Chart -->
-        <div class="lg:col-span-2 bg-slate-900/80 border border-slate-800 p-5 rounded-xl flex flex-col">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="font-semibold text-slate-200 flex items-center">
-                    <i data-lucide="brain" class="w-4 h-4 mr-2 text-indigo-400"></i> AI Predictive Energy & Demand Model
-                </h2>
-                <span class="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded">Model: LSTM-Net</span>
-            </div>
-            <div class="flex-1 min-h-[220px]">
-                <canvas id="predictionChart"></canvas>
-            </div>
-        </div>
+  <script>
+    function startSystem() {
+      alert("KRYPTARA-X AI System launching...");
+    }
 
-        <!-- Autonomous Response Event Log -->
-        <div class="lg:col-span-4 bg-slate-900/80 border border-slate-800 p-5 rounded-xl">
-            <h2 class="font-semibold text-slate-200 flex items-center mb-4">
-                <i data-lucide="terminal" class="w-4 h-4 mr-2 text-emerald-400"></i> Autonomous Campus Decision & Action Stream
-            </h2>
-            <div class="space-y-3" id="log-container">
-                <div class="flex items-center justify-between text-xs bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-                    <div class="flex items-center space-x-3">
-                        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                        <span class="font-mono text-cyan-300">[AUTO-REBALANCE]</span>
-                        <span class="text-slate-300">Smart lighting dimmed in Sector B (Solar intensity exceeded 800 W/m²).</span>
-                    </div>
-                    <span class="text-slate-500">2 mins ago</span>
-                </div>
-                <div class="flex items-center justify-between text-xs bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-                    <div class="flex items-center space-x-3">
-                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                        <span class="font-mono text-amber-300">[VALVE-ACTUATOR]</span>
-                        <span class="text-slate-300">Hydro-valve auto-shutoff engaged: Tank 3 reached max threshold (95%).</span>
-                    </div>
-                    <span class="text-slate-500">5 mins ago</span>
-                </div>
-            </div>
-        </div>
-    </main>
+    function showStatus() {
+      alert("SYSTEM STATUS: ONLINE ✓");
+    }
+  </script>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 py-3 text-center text-xs text-slate-500">
-        KRYPTARA-X &bull; Autonomous Civic Digital Twin System &bull; Final Year Project
-    </footer>
-
-    <script>
-        lucide.createIcons();
-
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        const ctx = document.getElementById('predictionChart').getContext('2d');
-        const predictionChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'],
-                datasets: [
-                    {
-                        label: 'Actual Usage (kW)',
-                        data: [310, 340, 390, 412, null, null, null],
-                        borderColor: '#06b6d4',
-                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Predicted Demand (AI)',
-                        data: [null, null, null, 412, 450, 480, 430],
-                        borderColor: '#818cf8',
-                        borderDash: [5, 5],
-                        borderWidth: 2,
-                        tension: 0.4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748b' } },
-                    y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748b' } }
-                },
-                plugins: {
-                    legend: { labels: { color: '#94a3b8' } }
-                }
-            }
-        });
-
-        setInterval(() => {
-            const randomEnergy = (400 + Math.floor(Math.random() * 25));
-            document.getElementById('energy-val').innerText = randomEnergy + ' kW';
-        }, 3500);
-    </script>
 </body>
 </html>
