@@ -1,160 +1,322 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>KRYPTARA-X AI Command Center</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRYPTARA-X | AI Command Center</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #050b14;
-            color: white;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        header {
-            padding: 20px;
-            background: #0b1625;
-            border-bottom: 1px solid #12304a;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #030812;
+    color: #ffffff;
+}
 
-        header h1 {
-            margin: 0;
-            color: #00eaff;
-        }
+header {
+    background: #071321;
+    border-bottom: 1px solid #17334d;
+    padding: 18px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .status {
-            color: #00ff88;
-            margin-top: 8px;
-        }
+.logo {
+    color: #00eaff;
+    font-size: 24px;
+    font-weight: bold;
+}
 
-        .container {
-            padding: 30px;
-        }
+.status {
+    color: #00ff88;
+    font-weight: bold;
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+.container {
+    padding: 28px;
+}
 
-        .card {
-            background: #0c1827;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #12304a;
-        }
+.title {
+    margin-bottom: 25px;
+}
 
-        .card h2 {
-            color: #00eaff;
-        }
+.title h1 {
+    margin: 0;
+    color: #00eaff;
+    font-size: 32px;
+}
 
-        .value {
-            font-size: 35px;
-            font-weight: bold;
-        }
+.title p {
+    color: #8fa8bd;
+}
 
-        .online {
-            color: #00ff88;
-        }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
 
-        .warning {
-            color: #ffd000;
-        }
+.card {
+    background: #081523;
+    border: 1px solid #16344d;
+    border-radius: 14px;
+    padding: 22px;
+    min-height: 140px;
+}
 
-        .danger {
-            color: #ff4050;
-        }
+.card h3 {
+    margin-top: 0;
+    color: #8fa8bd;
+}
 
-        .activity {
-            margin-top: 25px;
-        }
+.value {
+    font-size: 34px;
+    font-weight: bold;
+    margin: 12px 0;
+}
 
-        .activity p {
-            padding: 12px;
-            background: #081321;
-            border-radius: 6px;
-        }
+.green {
+    color: #00ff88;
+}
 
-        button {
-            padding: 12px 22px;
-            background: #00eaff;
-            border: none;
-            border-radius: 7px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+.yellow {
+    color: #ffd000;
+}
+
+.red {
+    color: #ff4050;
+}
+
+.blue {
+    color: #00eaff;
+}
+
+.section {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: #081523;
+    border: 1px solid #16344d;
+    border-radius: 14px;
+    padding: 22px;
+}
+
+.panel h2 {
+    color: #00eaff;
+    margin-top: 0;
+}
+
+.bar {
+    height: 15px;
+    background: #172738;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 12px 0 20px;
+}
+
+.fill {
+    height: 100%;
+    width: 72%;
+    background: #00eaff;
+}
+
+.feed {
+    background: #050e19;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 10px 0;
+}
+
+button {
+    background: #00eaff;
+    color: #001018;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: white;
+}
+
+.back {
+    margin-top: 25px;
+}
+
+@media(max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>🧠 KRYPTARA-X AI COMMAND CENTER</h1>
+    <div class="logo">🧠 KRYPTARA-X</div>
     <div class="status">● SYSTEM ONLINE</div>
 </header>
 
 <div class="container">
 
-    <h2>Live Intelligence Dashboard</h2>
+    <div class="title">
+        <h1>AI COMMAND CENTER</h1>
+        <p>Predictive Civic Intelligence & Smart Campus Monitoring</p>
+    </div>
 
     <div class="grid">
 
         <div class="card">
-            <h2>🤖 AI Prediction</h2>
-            <div class="value">94%</div>
-            <p>Prediction Accuracy</p>
+            <h3>🤖 AI PREDICTION</h3>
+            <div class="value blue">94%</div>
+            <p>Prediction confidence</p>
         </div>
 
         <div class="card">
-            <h2>⚠️ Risk Score</h2>
-            <div class="value warning">23%</div>
-            <p>Current Campus Risk</p>
+            <h3>⚠️ RISK SCORE</h3>
+            <div class="value yellow" id="risk">23%</div>
+            <p>Current campus risk</p>
         </div>
 
         <div class="card">
-            <h2>🚨 Threat Detection</h2>
-            <div class="value online">SAFE</div>
-            <p>No active threats detected</p>
+            <h3>🚨 THREAT LEVEL</h3>
+            <div class="value green">LOW</div>
+            <p>No active threats</p>
         </div>
 
         <div class="card">
-            <h2>📡 IoT Sensors</h2>
-            <div class="value">128</div>
-            <p>Active Sensors</p>
-        </div>
-
-        <div class="card">
-            <h2>🌐 Digital Twin</h2>
-            <div class="value online">LIVE</div>
-            <p>Campus model synchronized</p>
-        </div>
-
-        <div class="card">
-            <h2>⚡ Response System</h2>
-            <div class="value online">READY</div>
-            <p>Autonomous response enabled</p>
+            <h3>📡 IoT SENSORS</h3>
+            <div class="value blue">128</div>
+            <p>Active sensors</p>
         </div>
 
     </div>
 
-    <div class="activity">
+    <div class="section">
 
-        <h2>📋 Live Activity Feed</h2>
+        <div class="panel">
+            <h2>📊 Campus Risk Analytics</h2>
 
-        <p>🟢 Security system online</p>
-        <p>🟢 IoT sensors connected</p>
-        <p>🟢 AI prediction engine active</p>
-        <p>🟡 Monitoring campus environment...</p>
+            <p>Security Monitoring</p>
+            <div class="bar">
+                <div class="fill" style="width:82%"></div>
+            </div>
 
+            <p>Environmental Safety</p>
+            <div class="bar">
+                <div class="fill" style="width:68%"></div>
+            </div>
+
+            <p>Infrastructure Health</p>
+            <div class="bar">
+                <div class="fill" style="width:91%"></div>
+            </div>
+
+            <button onclick="runAI()">🤖 Run AI Analysis</button>
+        </div>
+
+        <div class="panel">
+            <h2>🌐 Digital Twin</h2>
+
+            <p>Campus Model</p>
+            <div class="value green">LIVE</div>
+
+            <p>Buildings: <b>24</b></p>
+            <p>Connected Devices: <b>342</b></p>
+            <p>Monitoring Zones: <b>18</b></p>
+
+            <button onclick="scanCampus()">🔍 Scan Campus</button>
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="panel">
+            <h2>📋 Live Activity Feed</h2>
+
+            <div id="feed">
+                <div class="feed">🟢 Security system online</div>
+                <div class="feed">🟢 128 IoT sensors connected</div>
+                <div class="feed">🟢 AI prediction engine active</div>
+                <div class="feed">🟡 Campus environment monitoring</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>⚡ Autonomous Response</h2>
+
+            <p>Emergency Response System</p>
+
+            <div class="value green">READY</div>
+
+            <button onclick="responseSystem()">
+                ⚡ Activate Response
+            </button>
+        </div>
+
+    </div>
+
+    <div class="back">
         <button onclick="goHome()">← Back to Home</button>
-
     </div>
 
 </div>
 
 <script>
 
+function runAI() {
+
+    document.getElementById("risk").innerText = "18%";
+
+    const feed = document.getElementById("feed");
+
+    feed.innerHTML =
+        '<div class="feed">🤖 AI analysis completed</div>' +
+        '<div class="feed">🟢 No critical threats detected</div>' +
+        '<div class="feed">🟢 Risk prediction updated</div>' +
+        '<div class="feed">🟢 Campus security stable</div>';
+}
+
+function scanCampus() {
+
+    alert("🔍 KRYPTARA-X scanning campus...\n\nAll monitoring zones are being analyzed.");
+}
+
+function responseSystem() {
+
+    alert("⚡ AUTONOMOUS RESPONSE SYSTEM\n\nSystem ready for emergency response.");
+}
+
 function goHome() {
+
     window.location.href = "index.html";
 }
 
