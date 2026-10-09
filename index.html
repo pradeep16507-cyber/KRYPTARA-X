@@ -67,6 +67,212 @@
             width: 220px;
             border-radius: 12px;
         }
+        
+/* KRYPTARA-X 3D Smart Campus */
+.kx-campus {
+  padding: 32px 20px;
+  margin: 28px auto;
+  max-width: 1200px;
+  color: #eafaff;
+  background: radial-gradient(ellipse at top, #102c48, #050b16 75%);
+  border: 1px solid #16486a;
+  border-radius: 24px;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.kx-campus * {
+  box-sizing: border-box;
+}
+
+.kx-campus-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.kx-campus-header h2 {
+  color: #65eaff;
+  font-size: clamp(24px, 4vw, 36px);
+  text-shadow: 0 0 18px #00bfff88;
+  margin: 0 0 10px;
+}
+
+.kx-campus-header p {
+  color: #9bbbd0;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.kx-campus-map {
+  position: relative;
+  isolation: isolate;
+  min-height: 370px;
+  padding: 35px 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #17476a;
+  border-radius: 20px;
+  background:
+    linear-gradient(#12345044 1px, transparent 1px),
+    linear-gradient(90deg, #12345044 1px, transparent 1px),
+    radial-gradient(ellipse, #123a58, #071321 75%);
+  background-size: 28px 28px, 28px 28px, auto;
+  perspective: 900px;
+}
+
+.kx-campus-map::before {
+  content: "";
+  position: absolute;
+  inset: 16% 8%;
+  z-index: -1;
+  border: 1px dashed #39cfff66;
+  transform: rotateX(48deg) rotateZ(-8deg);
+  box-shadow: 0 0 35px #00bfff18;
+}
+
+.kx-zone {
+  min-width: 0;
+  min-height: 150px;
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 16px;
+  background: #071522eF;
+  transform: translateY(-5px);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.kx-zone:hover {
+  transform: translateY(-10px);
+}
+
+.kx-zone-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.kx-zone h3 {
+  margin: 0 0 9px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.kx-zone p {
+  margin: 0;
+  color: #b9cbd8;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.kx-safe {
+  border: 1px solid #19ff9b;
+  box-shadow: inset 0 0 22px #00ff7712,
+              0 0 18px #00ff7730;
+}
+
+.kx-safe h3,
+.kx-safe .kx-zone-icon {
+  color: #35ffab;
+  text-shadow: 0 0 12px #00ff8a88;
+}
+
+.kx-warning {
+  border: 1px solid #ffc247;
+  box-shadow: inset 0 0 22px #ffb00012,
+              0 0 18px #ffb00030;
+}
+
+.kx-warning h3,
+.kx-warning .kx-zone-icon {
+  color: #ffd166;
+  text-shadow: 0 0 12px #ffb00088;
+}
+
+.kx-emergency {
+  border: 1px solid #ff4668;
+  box-shadow: inset 0 0 22px #ff174412,
+              0 0 20px #ff174444;
+}
+
+.kx-emergency h3,
+.kx-emergency .kx-zone-icon {
+  color: #ff6680;
+  text-shadow: 0 0 14px #ff1744aa;
+}
+
+.kx-campus-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 22px;
+  color: #c7d9e8;
+  font-size: 13px;
+}
+
+.kx-campus-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.kx-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.kx-dot-safe {
+  background: #35ffab;
+  box-shadow: 0 0 10px #35ffab;
+}
+
+.kx-dot-warning {
+  background: #ffd166;
+  box-shadow: 0 0 10px #ffd166;
+}
+
+.kx-dot-emergency {
+  background: #ff4668;
+  box-shadow: 0 0 10px #ff4668;
+}
+
+.kx-campus-note {
+  text-align: center;
+  margin: 22px 0 0;
+  color: #829eb5;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .kx-campus {
+    padding: 22px 12px;
+  }
+
+  .kx-campus-map {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 14px;
+    padding: 20px 12px;
+  }
+
+  .kx-zone {
+    min-height: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kx-zone {
+    transition: none;
+  }
+}
     </style>
 </head>
 
@@ -122,5 +328,42 @@ function showStatus() {
 }
 </script>
 
+<section class="kx-campus" id="kx-smart-campus">
+  <header class="kx-campus-header">
+    <h2>🏙️ 3D SMART CAMPUS</h2>
+    <p>KRYPTARA-X · Predictive Civic Intelligence</p>
+  </header>
+
+  <div class="kx-campus-map">
+    <article class="kx-zone kx-safe">
+      <div class="kx-zone-icon">🛡️</div>
+      <h3>SAFE ZONE</h3>
+      <p>Zone A · Normal Status</p>
+    </article>
+
+    <article class="kx-zone kx-warning">
+      <div class="kx-zone-icon">⚠️</div>
+      <h3>WARNING ZONE</h3>
+      <p>Zone B · Attention Required</p>
+    </article>
+
+    <article class="kx-zone kx-emergency">
+      <div class="kx-zone-icon">🚨</div>
+      <h3>EMERGENCY ZONE</h3>
+      <p>Zone C · High Priority</p>
+    </article>
+  </div>
+
+  <div class="kx-campus-legend">
+    <span><i class="kx-dot kx-dot-safe"></i> Safe</span>
+    <span><i class="kx-dot kx-dot-warning"></i> Warning</span>
+    <span><i class="kx-dot kx-dot-emergency"></i> Emergency</span>
+  </div>
+
+  <p class="kx-campus-note">
+    DEMO VISUALIZATION · Zone labels are illustrative,
+    not connected to real campus sensors.
+  </p>
+</section>
 </body>
 </html>
