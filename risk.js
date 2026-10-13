@@ -34,6 +34,8 @@ function computeRisk(s) {
     score += f[key] * WEIGHTS[key] * 100;
   }
   if (s.emergencyActive) score = Math.max(score, 80);
+       // 2 or more active alerts can never show as a low score.
+     if (s.activeAlerts >= 2) score = Math.max(score, 60);
   score = Math.round(score);
   return { score, level: threatLevel(score), contributions };
 }
