@@ -1159,6 +1159,14 @@ function generateAlert(){
         📈 Campus Risk Activity — Last 7 Updates
     </p>
 
-</div>
+</div> 
+<script src="risk.js"></script>
+<script>
+  console.log(computeRisk({
+    temperatureC: 28, crowdPercent: 42, aqi: 45,
+    activeAlerts: 0, emergencyActive: false,
+    sensorsOnline: 128, sensorsTotal: 128
+  }));
+</script>
 </body>
 </html>
