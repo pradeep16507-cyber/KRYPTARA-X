@@ -1162,11 +1162,408 @@ function generateAlert(){
 </div> 
 <script src="risk.js"></script>
 <script>
-  console.log(computeRisk({
-    temperatureC: 28, crowdPercent: 42, aqi: 45,
-    activeAlerts: 0, emergencyActive: false,
-    sensorsOnline: 128, sensorsTotal: 128
-  }));
+// ---- 1. Ellaa sensor values oru idathula ----
+let state = {
+  temperatureC: 28, crowdPercent: 42, aqi: 45,
+  activeAlerts: 0, emergencyActive: false,
+  sensorsOnline: 128, sensorsTotal: 128
+};
+const riskHistory = [];
+
+// Pazhaya random-chart timer-a stop pannum (adhu layout-a kedukkum)
+for (let i = 1; i < 200; i++) clearInterval(i);
+
+// ---- 2. Chinna helper functions ----
+const $ = (id) => document.getElementById(id);
+const colorName = (level) => level === 'LOW' ? 'green' : level === 'MEDIUM' ? 'yellow' : 'red';
+const colorHex = { green: '#00ff88', yellow: '#ffd000', red: '#ff4d4d' };
+
+function airLabel(aqi) {
+  if (aqi <= 50) return 'Good';
+  if (aqi <= 100) return 'Moderate';
+  if (aqi <= 200) return 'Poor';
+  return 'Very Poor';
+}
+
+function showFeed(lines) {
+  $('feed').innerHTML = lines.map(function (t) {
+    return '<div class="feed">' + t + '</div>';
+  }).join('');
+}
+
+const chartBox = Array.from(document.querySelectorAll('.panel p'))
+  .find(function (p) { return p.textContent.includes('Last 7 Updates'); })
+  ?.previousElementSibling;
+
+// ---- 3. render(): dashboard-la ellaa numbers-um inga irundhu mattum ----
+function render() {
+  const r = computeRisk(state);
+  const f = factorRisks(state);
+  const color = colorName(r.level);
+  const hex = colorHex[color];
+
+  riskHistory.push(r.score);
+  if (riskHistory.length > 7) riskHistory.shift();
+
+  // top cards
+  $('risk').innerText = r.score + '%';
+  $('risk').className = 'value ' + color;
+  $('prediction').innerText = (100 - r.score) + '%';
+  $('threat').innerText = r.level;
+  $('threat').className = 'value ' + color;
+  $('sensors').innerText = state.sensorsOnline;
+
+  // live sensor panel
+  $('temperature').innerText = state.temperatureC + '°C';
+  $('crowd').innerText = state.crowdPercent + '%';
+  $('air').innerText = airLabel(state.aqi);
+  $('liveSensors').innerText = state.sensorsOnline;
+
+  // status texts
+  const labels = {
+    LOW: '🟢 CAMPUS SAFE',
+    MEDIUM: '🟡 CAMPUS WARNING',
+    HIGH: '🔴 HIGH RISK',
+    EMERGENCY: '🔴 THREAT DETECTED'
+  };
+  $('threatStatus').innerText = labels[r.level];
+  $('threatStatus').style.color = hex;
+
+  const box = $('liveAlert');
+  box.innerText =
+    r.level === 'LOW' ? (state.activeAlerts > 0
+      ? '🟢 LIVE MONITORING — ' + state.activeAlerts + ' alert under watch'
+      : '🟢 LIVE MONITORING — No active alerts') :
+    r.level === 'MEDIUM' ? '🟡 LIVE MONITORING — Elevated risk' :
+    '🚨 SECURITY ALERT — Risk level ' + r.level;
+  box.style.color = hex;
+  box.style.borderColor = hex;
+  box.style.background =
+    r.level === 'LOW' ? '#07111e' : r.level === 'MEDIUM' ? '#1f1a05' : '#250711';
+
+  // Campus Risk Analytics bars
+  const security = 100 - Math.round((f.alerts * 0.6 + f.crowd * 0.4) * 100);
+  const infra = 100 - Math.round((f.sensorHealth * 0.5 + f.temperature * 0.5) * 100);
+  const values = [security, infra, r.score];
+  const colors = [colorHex.green, '#00aaff', hex];
+  document.querySelectorAll('.progress').forEach(function (p, i) {
+    p.querySelector('.progress-top span:last-child').innerText = values[i] + '%';
+    const fill = p.querySelector('.fill');
+    fill.style.width = values[i] + '%';
+    fill.style.background = colors[i];
+  });
+
+  // Last 7 updates chart
+  if (chartBox) {
+    chartBox.innerHTML = riskHistory.map(function (s) {
+      const c = s >= 60 ? colorHex.red : s >= 30 ? colorHex.yellow : '#00aaff';
+      return '<div style="height:' + Math.max(s, 5) +
+        '%;flex:1;background:' + c + ';border-radius:5px 5px 0 0;"></div>';
+    }).join('');
+  }
+  return r;
+}
+
+// ---- 4. Buttons: pazhaya functions-a replace pannum ----
+function runAI() {
+  const r = render();
+  showFeed([
+    '🤖 AI analysis completed',
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
+    '🧠 Predictive model synchronized'
+  ]);
+}
+
+function scanCampus() {
+  state.sensorsOnline = Math.floor(Math.random() * 11) + 118;   // 118 to 128
+  const r = render();
+  showFeed([
+    '🔍 Campus scanning started...',
+    '📡 ' + state.sensorsOnline + ' of ' + state.sensorsTotal + ' sensors responding',
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
+  ]);
+}
+
+function updateSensors() {
+  state = simulateSensors(state);
+  const r = render();
+  showFeed([
+    '📡 Live sensor update received',
+    '🌡️ Temperature: ' + state.temperatureC + '°C',
+    '👥 Crowd level: ' + state.crowdPercent + '%',
+    '💨 Air quality: ' + airLabel(state.aqi),
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
+  ]);
+}
+
+function detectThreat() {
+  state.activeAlerts = Math.min(state.activeAlerts + 1, 3);
+  const r = render();
+  showFeed([
+    '🚨 Threat detection activated',
+    '⚠️ Active alerts: ' + state.activeAlerts,
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
+    '⚡ Autonomous response standing by'
+  ]);
+}
+
+function generateAlert() {
+  state.emergencyActive = true;
+  const r = render();
+  showFeed([
+    '🚨 Security alert generated',
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
+    '🧠 AI analysing threat level...',
+    '⚡ Response system standing by'
+  ]);
+  setTimeout(function () {
+    state.emergencyActive = false;
+    render();
+    showFeed(['🟢 Alert analysed — system monitoring active']);
+  }, 5000);
+}
+
+function activateResponse() {
+  const status = $('responseStatus');
+  const steps = $('responseSteps');
+  status.innerText = '⚡ AUTONOMOUS RESPONSE ACTIVE';
+  status.style.color = '#ffd000';
+  steps.innerHTML = '🔍 Analysing threat...';
+
+  setTimeout(function () { steps.innerHTML = '🧠 AI analysing risk level...'; }, 1000);
+  setTimeout(function () { steps.innerHTML = '🚨 Security alert initiated...'; }, 2000);
+  setTimeout(function () { steps.innerHTML = '🛡️ Threat containment in progress...'; }, 3000);
+  setTimeout(function () {
+    state.activeAlerts = 0;
+    state.emergencyActive = false;
+    const r = render();
+    status.innerText = '🟢 THREAT CONTAINED';
+    status.style.color = '#00ff88';
+    steps.innerHTML = '✅ Autonomous response completed. Risk score now ' + r.score + '%';
+    showFeed([
+      '⚡ Autonomous response completed',
+      '🛡️ Threat contained, alerts cleared',
+      '📊 Risk score: ' + r.score + '% (' + r.level + ')'
+    ]);
+  }, 4500);
+}
+
+// "Activate Response" (red button) same response use pannum
+function responseSystem() {
+  activateResponse();
+}
+
+// ---- 5. Start: chart-ku modhal 6 values, appuram first render ----
+{
+  let demo = Object.assign({}, state);
+  for (let i = 0; i < 6; i++) {
+    demo = simulateSensors(demo);
+    riskHistory.push(computeRisk(demo).score);
+  }
+}
+render();
+</script> 
+        <script>
+// ---- 1. Ellaa sensor values oru idathula ----
+let state = {
+  temperatureC: 28, crowdPercent: 42, aqi: 45,
+  activeAlerts: 0, emergencyActive: false,
+  sensorsOnline: 128, sensorsTotal: 128
+};
+const riskHistory = [];
+
+// Pazhaya random-chart timer-a stop pannum (adhu layout-a kedukkum)
+for (let i = 1; i < 200; i++) clearInterval(i);
+
+// ---- 2. Chinna helper functions ----
+const $ = (id) => document.getElementById(id);
+const colorName = (level) => level === 'LOW' ? 'green' : level === 'MEDIUM' ? 'yellow' : 'red';
+const colorHex = { green: '#00ff88', yellow: '#ffd000', red: '#ff4d4d' };
+
+function airLabel(aqi) {
+  if (aqi <= 50) return 'Good';
+  if (aqi <= 100) return 'Moderate';
+  if (aqi <= 200) return 'Poor';
+  return 'Very Poor';
+}
+
+function showFeed(lines) {
+  $('feed').innerHTML = lines.map(function (t) {
+    return '<div class="feed">' + t + '</div>';
+  }).join('');
+}
+
+const chartBox = Array.from(document.querySelectorAll('.panel p'))
+  .find(function (p) { return p.textContent.includes('Last 7 Updates'); })
+  ?.previousElementSibling;
+
+// ---- 3. render(): dashboard-la ellaa numbers-um inga irundhu mattum ----
+function render() {
+  const r = computeRisk(state);
+  const f = factorRisks(state);
+  const color = colorName(r.level);
+  const hex = colorHex[color];
+
+  riskHistory.push(r.score);
+  if (riskHistory.length > 7) riskHistory.shift();
+
+  // top cards
+  $('risk').innerText = r.score + '%';
+  $('risk').className = 'value ' + color;
+  $('prediction').innerText = (100 - r.score) + '%';
+  $('threat').innerText = r.level;
+  $('threat').className = 'value ' + color;
+  $('sensors').innerText = state.sensorsOnline;
+
+  // live sensor panel
+  $('temperature').innerText = state.temperatureC + '°C';
+  $('crowd').innerText = state.crowdPercent + '%';
+  $('air').innerText = airLabel(state.aqi);
+  $('liveSensors').innerText = state.sensorsOnline;
+
+  // status texts
+  const labels = {
+    LOW: '🟢 CAMPUS SAFE',
+    MEDIUM: '🟡 CAMPUS WARNING',
+    HIGH: '🔴 HIGH RISK',
+    EMERGENCY: '🔴 THREAT DETECTED'
+  };
+  $('threatStatus').innerText = labels[r.level];
+  $('threatStatus').style.color = hex;
+
+  const box = $('liveAlert');
+  box.innerText =
+    r.level === 'LOW' ? (state.activeAlerts > 0
+      ? '🟢 LIVE MONITORING — ' + state.activeAlerts + ' alert under watch'
+      : '🟢 LIVE MONITORING — No active alerts') :
+    r.level === 'MEDIUM' ? '🟡 LIVE MONITORING — Elevated risk' :
+    '🚨 SECURITY ALERT — Risk level ' + r.level;
+  box.style.color = hex;
+  box.style.borderColor = hex;
+  box.style.background =
+    r.level === 'LOW' ? '#07111e' : r.level === 'MEDIUM' ? '#1f1a05' : '#250711';
+
+  // Campus Risk Analytics bars
+  const security = 100 - Math.round((f.alerts * 0.6 + f.crowd * 0.4) * 100);
+  const infra = 100 - Math.round((f.sensorHealth * 0.5 + f.temperature * 0.5) * 100);
+  const values = [security, infra, r.score];
+  const colors = [colorHex.green, '#00aaff', hex];
+  document.querySelectorAll('.progress').forEach(function (p, i) {
+    p.querySelector('.progress-top span:last-child').innerText = values[i] + '%';
+    const fill = p.querySelector('.fill');
+    fill.style.width = values[i] + '%';
+    fill.style.background = colors[i];
+  });
+
+  // Last 7 updates chart
+  if (chartBox) {
+    chartBox.innerHTML = riskHistory.map(function (s) {
+      const c = s >= 60 ? colorHex.red : s >= 30 ? colorHex.yellow : '#00aaff';
+      return '<div style="height:' + Math.max(s, 5) +
+        '%;flex:1;background:' + c + ';border-radius:5px 5px 0 0;"></div>';
+    }).join('');
+  }
+  return r;
+}
+
+// ---- 4. Buttons: pazhaya functions-a replace pannum ----
+function runAI() {
+  const r = render();
+  showFeed([
+    '🤖 AI analysis completed',
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
+    '🧠 Predictive model synchronized'
+  ]);
+}
+
+function scanCampus() {
+  state.sensorsOnline = Math.floor(Math.random() * 11) + 118;   // 118 to 128
+  const r = render();
+  showFeed([
+    '🔍 Campus scanning started...',
+    '📡 ' + state.sensorsOnline + ' of ' + state.sensorsTotal + ' sensors responding',
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
+  ]);
+}
+
+function updateSensors() {
+  state = simulateSensors(state);
+  const r = render();
+  showFeed([
+    '📡 Live sensor update received',
+    '🌡️ Temperature: ' + state.temperatureC + '°C',
+    '👥 Crowd level: ' + state.crowdPercent + '%',
+    '💨 Air quality: ' + airLabel(state.aqi),
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
+  ]);
+}
+
+function detectThreat() {
+  state.activeAlerts = Math.min(state.activeAlerts + 1, 3);
+  const r = render();
+  showFeed([
+    '🚨 Threat detection activated',
+    '⚠️ Active alerts: ' + state.activeAlerts,
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
+    '⚡ Autonomous response standing by'
+  ]);
+}
+
+function generateAlert() {
+  state.emergencyActive = true;
+  const r = render();
+  showFeed([
+    '🚨 Security alert generated',
+    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
+    '🧠 AI analysing threat level...',
+    '⚡ Response system standing by'
+  ]);
+  setTimeout(function () {
+    state.emergencyActive = false;
+    render();
+    showFeed(['🟢 Alert analysed — system monitoring active']);
+  }, 5000);
+}
+
+function activateResponse() {
+  const status = $('responseStatus');
+  const steps = $('responseSteps');
+  status.innerText = '⚡ AUTONOMOUS RESPONSE ACTIVE';
+  status.style.color = '#ffd000';
+  steps.innerHTML = '🔍 Analysing threat...';
+
+  setTimeout(function () { steps.innerHTML = '🧠 AI analysing risk level...'; }, 1000);
+  setTimeout(function () { steps.innerHTML = '🚨 Security alert initiated...'; }, 2000);
+  setTimeout(function () { steps.innerHTML = '🛡️ Threat containment in progress...'; }, 3000);
+  setTimeout(function () {
+    state.activeAlerts = 0;
+    state.emergencyActive = false;
+    const r = render();
+    status.innerText = '🟢 THREAT CONTAINED';
+    status.style.color = '#00ff88';
+    steps.innerHTML = '✅ Autonomous response completed. Risk score now ' + r.score + '%';
+    showFeed([
+      '⚡ Autonomous response completed',
+      '🛡️ Threat contained, alerts cleared',
+      '📊 Risk score: ' + r.score + '% (' + r.level + ')'
+    ]);
+  }, 4500);
+}
+
+// "Activate Response" (red button) same response use pannum
+function responseSystem() {
+  activateResponse();
+}
+
+// ---- 5. Start: chart-ku modhal 6 values, appuram first render ----
+{
+  let demo = Object.assign({}, state);
+  for (let i = 0; i < 6; i++) {
+    demo = simulateSensors(demo);
+    riskHistory.push(computeRisk(demo).score);
+  }
+}
+render();
 </script>
 </body>
 </html>
