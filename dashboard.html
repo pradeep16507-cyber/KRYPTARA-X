@@ -3,1567 +3,551 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>KRYPTARA-X | AI Command Center</title>
-">
-        KRYPTARA-X Intelligence Engine
-    </p>
-
-    <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-        gap:15px;
-        margin-top:15px;
-    ">
-
-        <div class="card">
-            🧠 AI Engine
-            <h3 style="color:#00ff88;">ONLINE</h3>
-        </div>
-
-        <div class="card">
-            📡 IoT Network
-            <h3 style="color:#00ff88;">CONNECTED</h3>
-        </div>
-
-        <div class="card">
-            🗺️ Digital Twin
-            <h3 style="color:#00aaff;">ACTIVE</h3>
-        </div>
-
-        <div class="card">
-            🛡️ Response System
-            <h3 style="color:#00ff88;">READY</h3>
-        </div>
-
-    </div>
-
-</div>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+:root{
+  --bg:#060d18; --panel:#0b1626; --panel-2:#0f1e33; --line:#1c3049;
+  --text:#e8f0f8; --muted:#8ba3bd;
+  --safe:#2ee59d; --warn:#ffc933; --danger:#ff5468; --signal:#38bdf8;
+  --display:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  --body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
 }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.5;min-height:100vh}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 24px 56px}
 
-body{
-    background:#050b14;
-    color:white;
-    min-height:100vh;
+/* header */
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  padding-bottom:20px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:38px;height:38px;border-radius:10px;background:var(--panel-2);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:20px}
+.brand-name{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.02em}
+.sys{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--safe)}
+.sys[data-tone="warn"]{color:var(--warn)}
+.sys[data-tone="danger"]{color:var(--danger)}
+.dot{width:9px;height:9px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+
+.title{margin:28px 0 22px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.title h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,40px);line-height:1.1}
+.title p{color:var(--muted);margin-top:6px;max-width:60ch}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);
+  border-radius:999px;color:var(--muted);font-size:13px;background:var(--panel)}
+.chip b{color:var(--warn);font-weight:600}
+
+/* stat cards */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.stat .label{color:var(--muted);font-size:14px}
+.stat .num{font-family:var(--display);font-weight:700;font-size:40px;line-height:1.1;margin-top:6px;color:var(--signal);
+  transition:color .3s}
+.stat .sub{color:var(--muted);font-size:13px;margin-top:4px}
+.stat[data-tone="safe"] .num{color:var(--safe)}
+.stat[data-tone="warn"] .num{color:var(--warn)}
+.stat[data-tone="danger"] .num{color:var(--danger)}
+
+/* alert banner */
+.banner{margin:16px 0;padding:14px 18px;border-radius:12px;border:1px solid var(--safe);
+  background:rgba(46,229,157,.07);color:var(--safe);font-weight:500;transition:all .3s}
+.banner[data-tone="warn"]{border-color:var(--warn);background:rgba(255,201,51,.08);color:var(--warn)}
+.banner[data-tone="danger"]{border-color:var(--danger);background:rgba(255,84,104,.10);color:var(--danger)}
+
+/* panels */
+.grid-main{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px}
+.grid-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.panel h2{font-family:var(--display);font-weight:500;font-size:19px}
+.panel .hint{color:var(--muted);font-size:14px;margin:4px 0 16px}
+
+/* campus map */
+.map-box{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#07111f}
+.map-box svg{display:block;width:100%;height:auto}
+.zone rect{fill:rgba(46,229,157,.10);stroke:var(--safe);stroke-width:1.5;transition:fill .4s,stroke .4s}
+.zone.warn rect{fill:rgba(255,201,51,.14);stroke:var(--warn)}
+.zone.danger rect{fill:rgba(255,84,104,.22);stroke:var(--danger);animation:zoneAlert 1.4s ease-in-out infinite}
+.zname{fill:var(--text);font:500 14px var(--body);text-anchor:middle}
+.zstate{fill:var(--muted);font:400 12px var(--body);text-anchor:middle}
+.node{fill:var(--signal);transform-box:fill-box;transform-origin:center;animation:nodePulse 1.8s ease-in-out infinite}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:14px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:baseline}
+
+@keyframes nodePulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:.55}}
+@keyframes zoneAlert{0%,100%{stroke-opacity:1}50%{stroke-opacity:.35}}
+
+/* sensor tiles */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tile{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.tile .label{color:var(--muted);font-size:13px}
+.tile .val{font-family:var(--display);font-weight:700;font-size:26px;margin-top:2px}
+
+/* buttons */
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+button{font:600 14px var(--body);padding:12px 14px;border-radius:10px;border:1px solid var(--line);
+  background:var(--panel-2);color:var(--text);cursor:pointer;transition:background .2s,border-color .2s,transform .1s}
+button:hover{border-color:var(--signal);background:#12263f}
+button:active{transform:translateY(1px)}
+button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:var(--signal);border-color:var(--signal);color:#04121f}
+.btn-primary:hover{background:#6cc9f6;border-color:#6cc9f6}
+.btn-danger{background:rgba(255,84,104,.14);border-color:var(--danger);color:#ffb3bd}
+.btn-danger:hover{background:rgba(255,84,104,.25);border-color:var(--danger)}
+.wide{grid-column:1 / -1}
+
+/* risk breakdown */
+.row{margin-top:16px}
+.row-top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.row-top span:last-child{color:var(--muted)}
+.bar{height:9px;background:#14263b;border-radius:99px;overflow:hidden}
+.fill{height:100%;width:0;border-radius:99px;background:var(--signal);transition:width .5s,background .3s}
+.formula{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+
+/* response */
+.status-line{font-weight:600;font-size:16px;color:var(--safe)}
+.status-line[data-tone="warn"]{color:var(--warn)}
+.steps{list-style:none;margin:16px 0}
+.steps li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+.steps li:last-child{border-bottom:0}
+.steps .mark{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px}
+.steps li.active{color:var(--warn)}
+.steps li.active .mark{border-color:var(--warn)}
+.steps li.done{color:var(--text)}
+.steps li.done .mark{background:var(--safe);border-color:var(--safe);color:#04121f}
+
+/* trend chart */
+.chart{position:relative;height:230px;margin-top:8px;display:flex;align-items:flex-end;gap:12px;padding:0 4px;
+  background:var(--panel-2);border:1px solid var(--line);border-radius:10px}
+.chart .guide{position:absolute;left:0;right:0;border-top:1px dashed #2a4562;pointer-events:none}
+.chart .guide span{position:absolute;left:8px;top:-17px;font-size:11px;color:var(--muted)}
+.bar-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;z-index:1}
+.bar-col .b{width:100%;border-radius:6px 6px 0 0;min-height:4px;transition:height .5s,background .3s}
+.bar-col small{color:var(--muted);font-size:11px;padding-bottom:2px}
+.chart-note{color:var(--muted);font-size:13px;margin-top:10px}
+
+/* feed */
+.feed{list-style:none}
+.feed li{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;margin-top:8px;border-radius:8px;
+  background:var(--panel-2);font-size:14px;border-left:3px solid var(--signal)}
+.feed li[data-tone="safe"]{border-left-color:var(--safe)}
+.feed li[data-tone="warn"]{border-left-color:var(--warn)}
+.feed li[data-tone="danger"]{border-left-color:var(--danger)}
+.feed time{color:var(--muted);font-size:12px;min-width:62px;padding-top:1px}
+
+footer{margin-top:28px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  color:var(--muted);font-size:13px}
+
+@media (max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid-main,.grid-two{grid-template-columns:1fr}
 }
-
-header{
-    padding:20px 40px;
-    background:#081321;
-    border-bottom:1px solid #1c344d;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+@media (max-width:560px){
+  .wrap{padding:18px 16px 40px}
+  .stats{grid-template-columns:1fr}
+  .actions{grid-template-columns:1fr}
 }
-
-.logo{
-    font-size:25px;
-    font-weight:bold;
-}
-
-.status{
-    color:#00ff88;
-    font-weight:bold;
-}
-
-.container{
-    padding:35px;
-}
-
-.title{
-    margin-bottom:30px;
-}
-
-.title h1{
-    font-size:38px;
-}
-
-.title p{
-    color:#8ca4bd;
-    margin-top:8px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-}
-
-.card{
-    background:#0b1828;
-    border:1px solid #1c344d;
-    border-radius:15px;
-    padding:25px;
-    box-shadow:0 0 20px rgba(0,150,255,.08);
-}
-
-.card h3{
-    color:#8ca4bd;
-    font-size:15px;
-}
-
-.value{
-    font-size:35px;
-    font-weight:bold;
-    margin-top:12px;
-}
-
-.green{
-    color:#00ff88;
-}
-
-.blue{
-    color:#00aaff;
-}
-
-.yellow{
-    color:#ffd000;
-}
-
-.red{
-    color:#ff4d4d;
-}
-
-.section{
-    margin-top:30px;
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
-}
-
-.panel{
-    background:#0b1828;
-    border:1px solid #1c344d;
-    border-radius:15px;
-    padding:25px;
-}
-
-.panel h2{
-    margin-bottom:20px;
-}
-
-.progress{
-    margin:20px 0;
-}
-
-.progress-top{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:8px;
-}
-
-.bar{
-    height:10px;
-    background:#17283a;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.fill{
-    height:100%;
-    width:70%;
-    background:#00aaff;
-}
-
-.fill.greenbar{
-    width:85%;
-    background:#00ff88;
-}
-
-.fill.yellowbar{
-    width:45%;
-    background:#ffd000;
-}
-
-.feed{
-    padding:12px;
-    margin-top:10px;
-    background:#07111e;
-    border-radius:8px;
-    color:#a9c0d6;
-}
-
-.buttons{
-    margin-top:30px;
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-button{
-    padding:14px 22px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    background:#008cff;
-    color:white;
-    font-weight:bold;
-}
-
-button:hover{
-    opacity:.8;
-}
-
-.response{
-    background:#ff1744;
-}
-
-.home{
-    background:#26384c;
-}
-
-@media(max-width:900px){
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .section{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:600px){
-    .cards{
-        grid-template-columns:1fr;
-    }
-
-    header{
-        padding:20px;
-    }
-
-    .container{
-        padding:20px;
-    }
-}@keyframes sensorPulse {
-
-    0% {
-        transform: scale(1);
-        opacity: 1;
-        box-shadow: 0 0 5px #00e5ff;
-    }
-
-    50% {
-        transform: scale(1.5);
-        opacity: 0.6;
-        box-shadow: 0 0 25px #00e5ff;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-        box-shadow: 0 0 5px #00e5ff;
-    }
-
-}
-
-.sensor-pulse {
-    animation: sensorPulse 1.5s infinite;
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
 }
 </style>
 </head>
 
 <body>
+<div class="wrap">
 
-<header>
-    <div class="logo">🧠 KRYPTARA-X</div>
-    <div class="status">● SYSTEM ONLINE</div>
-</header>
-
-<div class="container">
-
-    <div class="title">
-        <h1>AI COMMAND CENTER</h1>
-        <p>Predictive Civic Intelligence & Autonomous Response System</p>
+  <header>
+    <div class="brand">
+      <div class="brand-mark">🧠</div>
+      <div class="brand-name">KRYPTARA-X</div>
     </div>
+    <div class="sys" id="sysStatus" data-tone="safe"><span class="dot"></span><span id="sysText">System online</span></div>
+  </header>
 
-    <div class="cards">
-
-        <div class="card">
-            <h3>AI PREDICTION</h3>
-            <div class="value blue" id="prediction">94%</div>
-        </div>
-
-        <div class="card">
-            <h3>RISK SCORE</h3>
-            <div class="value green" id="risk">23%</div>
-        </div>
-
-        <div class="card">
-            <h3>THREAT LEVEL</h3>
-            <div class="value green" id="threat">LOW</div>
-        </div>
-
-        <div class="card">
-            <h3>IoT SENSORS</h3>
-            <div class="value blue" id="sensors">128</div>
-        </div>
-
+  <div class="title">
+    <div>
+      <h1>AI Command Center</h1>
+      <p>Predictive civic intelligence and autonomous response for the campus.</p>
     </div>
+    <span class="chip">Data mode: <b>Simulated</b></span>
+  </div>
 
-  <div class="panel" style="margin-top:30px;">
+  <section class="stats" aria-label="Campus summary">
+    <div class="stat"><div class="label">AI prediction</div><div class="num" id="prediction">100%</div><div class="sub">Campus safety confidence</div></div>
+    <div class="stat" id="riskCard" data-tone="safe"><div class="label">Risk score</div><div class="num" id="risk">0%</div><div class="sub">Weighted sensor formula</div></div>
+    <div class="stat" id="threatCard" data-tone="safe"><div class="label">Threat level</div><div class="num" id="threat">LOW</div><div class="sub" id="updated">Updated just now</div></div>
+    <div class="stat"><div class="label">IoT sensors online</div><div class="num" id="sensors">128</div><div class="sub" id="sensorsSub">of 128 sensors</div></div>
+  </section>
 
-    <h2>🗺️ Digital Twin Campus</h2> 
-      <div style="
-    margin-top:20px;
-    padding:20px;
-    background:#030b14;
-    border:2px solid #00aaff;
-    border-radius:18px;
-    box-shadow:0 0 30px rgba(0,170,255,0.15);
-">
+  <div class="banner" id="liveAlert" role="status" aria-live="polite" data-tone="safe">Live monitoring: no active alerts</div>
 
-    <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:15px;
-    ">
+  <div class="grid-main">
+    <section class="panel">
+      <h2>Digital twin campus</h2>
+      <p class="hint">Each zone changes colour from the live sensor readings.</p>
+      <div class="map-box" id="mapBox"></div>
+      <div class="legend">
+        <span><i style="background:var(--safe)"></i>Safe</span>
+        <span><i style="background:var(--warn)"></i>Watch</span>
+        <span><i style="background:var(--danger)"></i>Alert</span>
+        <span><i style="background:var(--signal);border-radius:50%"></i>IoT sensor</span>
+      </div>
+    </section>
 
-        <div>
-            <h2 style="margin:0;">
-                🌐 LIVE DIGITAL TWIN
-            </h2>
+    <section class="panel">
+      <h2>Live sensors</h2>
+      <p class="hint">Latest readings across the campus.</p>
+      <div class="tiles">
+        <div class="tile"><div class="label">Temperature</div><div class="val" id="temperature">28°C</div></div>
+        <div class="tile"><div class="label">Crowd level</div><div class="val" id="crowd">42%</div></div>
+        <div class="tile"><div class="label">Air quality</div><div class="val" id="air">Good</div></div>
+        <div class="tile"><div class="label">Active alerts</div><div class="val" id="alerts">0</div></div>
+      </div>
+      <div class="actions">
+        <button class="btn-primary" data-action="update">Update sensors</button>
+        <button data-action="scan">Scan campus</button>
+        <button data-action="ai">Run AI analysis</button>
+        <button data-action="threat">Detect threat</button>
+        <button class="btn-danger" data-action="alert">Raise security alert</button>
+        <button data-action="live" id="liveBtn">Live updates: off</button>
+      </div>
+    </section>
+  </div>
 
-            <p style="
-                color:#8ca4bd;
-                margin:5px 0 0;
-            ">
-                KRYPTARA-X Campus Intelligence Map
-            </p>
-        </div>
-<div style="
-    margin-top:25px;
-    padding:20px;
-    background:linear-gradient(135deg,#030712,#0b1026,#160b2e);
-    border:2px solid #6c5ce7;
-    border-radius:20px;
-    box-shadow:0 0 35px rgba(108,92,231,.25);
-">
+  <div class="grid-two">
+    <section class="panel">
+      <h2>Risk breakdown</h2>
+      <p class="hint">How each sensor adds to the risk score.</p>
+      <div id="breakdown"></div>
+      <p class="formula">Risk score = sum of the five factors above. Two or more active alerts, or an emergency, set a minimum score.</p>
+    </section>
 
-    <h2 style="
-        color:#ffffff;
-        text-shadow:0 0 15px #6c5ce7;
-    ">
-        🛰️ 3D CAMPUS DIGITAL TWIN
+    <section class="panel">
+      <h2>Autonomous response</h2>
+      <p class="hint">Contains active threats and clears alerts.</p>
+      <div class="status-line" id="responseStatus" data-tone="safe">Response system ready</div>
+      <ol class="steps" id="steps">
+        <li data-step="0"><span class="mark"></span>Analyse threat</li>
+        <li data-step="1"><span class="mark"></span>Assess risk with the AI engine</li>
+        <li data-step="2"><span class="mark"></span>Notify the security team</li>
+        <li data-step="3"><span class="mark"></span>Contain the threat</li>
+      </ol>
+      <button class="btn-danger wide" style="width:100%" id="responseBtn" data-action="response">Activate autonomous response</button>
+    </section>
+  </div>
 
-            
-    </h2>
+  <div class="grid-two">
+    <section class="panel">
+      <h2>Risk trend</h2>
+      <p class="hint">Last 7 updates. Dashed lines mark Medium (30) and High (60).</p>
+      <div class="chart" id="chart"></div>
+      <p class="chart-note" id="chartNote"></p>
+    </section>
 
-    <p style="color:#9ca3af;">
-        KRYPTARA-X Spatial Intelligence View
-    </p>
+    <section class="panel">
+      <h2>Activity feed</h2>
+      <p class="hint">Latest events first.</p>
+      <ul class="feed" id="feed" aria-live="polite"></ul>
+    </section>
+  </div>
 
-  
-        
-
-        <div style="
-            position:absolute;
-            left:15%;
-            top:35%;
-            width:70%;
-            height:40%;
-            background:linear-gradient(145deg,#172554,#312e81);
-            border:2px solid #38bdf8;
-            transform:rotateX(55deg) rotateZ(-5deg);
-            box-shadow:
-            0 0 25px rgba(56,189,248,.4),
-            20px 25px 0 #0f172a;
-        ">
-
-          
-
-        <div style="
-            position:absolute;
-            right:10%;
-            top:15%;
-            padding:10px 16px;
-            color:#ffd000;
-            background:#332800;
-            box-shadow:
-    0 0 15px rgba(255,208,0,.7),
-    0 0 30px rgba(255,208,0,.35);
-            border:1px solid #ffd000;
-            border-radius:10px;
-            box-shadow:0 0 15px rgba(255,208,0,.4);
-        ">
-            🟡 WARNING
-        </div>
-
-
-        <div style="
-            position:absolute;
-            right:10%;
-            bottom:15%;
-            padding:10px 16px;
-            color:#ff4d6d;
-            background:#3b0715;
-            border:1px solid #ff1744;
-            border-radius:10px;
-            box-shadow:0 0 20px rgba(255,23,68,.5);
-        ">
-            🚨 EMERGENCY
-        </div>
-
-
-        <div style="
-            position:absolute;
-            left:20%;
-            bottom:20%;
-            font-size:30px;
-            filter:drop-shadow(0 0 12px #00e5ff);
-        ">
-            📡
-        </div>
-
-        <div style="
-            position:absolute;
-            right:25%;
-            bottom:22%;
-            font-size:30px;
-            filter:drop-shadow(0 0 12px #00e5ff);
-        ">
-            📡
-        </div>
-
-    </div>
+  <footer>
+    <span>Sensor readings are simulated. The risk formula is the same one a real sensor network would feed.</span>
+    <button onclick="window.location.href='index.html'">Back to home</button>
+  </footer>
 
 </div>
-        <div style="
-            color:#00ff88;
-            font-weight:bold;
-        ">
-            ● LIVE
-        </div>
-
-    </div>
-
-
-    <div style="
-        position:relative;
-        height:360px;
-        overflow:hidden;
-        
-        border:1px solid #1c344d;
-        border-radius:15px;
-        background:
-        linear-gradient(rgba(0,170,255,0.06) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,170,255,0.06) 1px,transparent 1px);
-        background-size:40px 40px;
-   
-            🟢 SAFE ZONE
-        </div>
-
-
-        <div style="
-            position:absolute;
-            right:8%;
-            top:18%;
-            padding:12px 18px;
-            background:#4a3900;
-            border:2px solid #ffd000;
-            border-radius:10px;
-        ">
-            🟡 WARNING
-        </div>
-
-
-        <div style="
-            position:absolute;
-            left:10%;
-            bottom:15%;
-            padding:12px 18px;
-            background:#102b43;
-            border:2px solid #00aaff;
-            border-radius:10px;
-        ">
-            🏢 ADMIN BLOCK
-        </div>
-
-
-        <div style="
-            position:absolute;
-            right:8%;
-            bottom:15%;
-            padding:12px 18px;
-            background:#4a0715;
-            border:2px solid #ff1744;
-            border-radius:10px;
-            animation:blink 1.2s infinite;
-        ">
-            🚨 EMERGENCY
-        </div>
-
-
-        <div style="
-            position:absolute;
-            left:23%;
-            top:60%;
-            font-size:28px;
-        ">
-            📡
-        </div>
-
-
-        <div style="
-            position:absolute;
-            left:72%;
-            top:58%;
-            font-size:28px;
-        ">
-            📡
-        </div>
-
-
-        <div style="
-            position:absolute;
-            left:48%;
-            bottom:12%;
-            font-size:28px;
-        ">
-            📡
-        </div>
-
-
-        <div style="
-            position:absolute;
-            left:25%;
-            top:48%;
-            width:50%;
-            height:2px;
-            background:#00aaff;
-            opacity:.5;
-        "></div>
-
-
-        <div style="
-            position:absolute;
-            left:50%;
-            top:43%;
-            width:2px;
-            height:30%;
-            background:#00aaff;
-            opacity:.5;
-        "></div>
-
-    </div>
-
-
-    <div style="
-        display:flex;
-        gap:20px;
-        flex-wrap:wrap;
-        margin-top:15px;
-        color:#8ca4bd;
-    ">
-
-        <span>🟢 Safe</span>
-        <span>🟡 Warning</span>
-        <span>🔴 Emergency</span>
-        <span>📡 IoT Sensor</span>
-
-    </div>
-
-</div>
-    <div id="liveAlert" style="
-    margin-top:20px;
-    padding:15px;
-    background:#07111e;
-    border:1px solid #1c344d;
-    border-radius:12px;
-    color:#00ff88;
-    font-weight:bold;
-">
-    🟢 LIVE MONITORING — No active alerts
-</div>
-
-<button onclick="generateAlert()" style="margin-top:15px;">
-    🔔 Generate Security Alert
-</button>
-      <div style="
-    margin-top:20px;
-    padding:20px;
-    background:#07111e;
-    border:1px solid #1c344d;
-    border-radius:15px;
-">
-
-    <h3>📡 Live Sensor Monitoring</h3>
-
-    <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-        gap:15px;
-        margin-top:15px;
-    ">
-
-        <div class="card">
-            🌡️ Temperature
-            <h2 id="temperature">28°C</h2>
-        </div>
-
-        <div class="card">
-            👥 Crowd Level
-            <h2 id="crowd">42%</h2>
-        </div>
-
-        <div class="card">
-            💨 Air Quality
-            <h2 id="air">Good</h2>
-        </div>
-
-        <div class="card">
-            📡 Active Sensors
-            <h2 id="liveSensors">128</h2>
-        </div>
-
-    </div>
-
-    <button onclick="updateSensors()" style="margin-top:20px;">
-        📡 Update Live Sensors
-    </button>
-
-</div>
-      <div style="margin-bottom:20px;">
-
-    <button onclick="detectThreat()">
-        🚨 Detect Threat
-    </button>
-
-    <span id="threatStatus"
-          style="margin-left:15px;color:#00ff88;font-weight:bold;">
-        🟢 CAMPUS SAFE
-    </span>
-
-</div>
-
-   
-        <!-- Safe Zone -->
-        <div style="
-            position:absolute;
-            left:8%;
-            bottom:15%;
-            padding:12px;
-            background:#063d2b;
-            border:2px solid #00ff88;
-            border-radius:10px;
-        ">
-            🟢 SAFE ZONE
-        </div>
-
-        <!-- Warning Zone -->
-        <div style="
-            position:absolute;
-            right:8%;
-            top:15%;
-            padding:12px;
-            background:#4a3900;
-            border:2px solid #ffd000;
-            border-radius:10px;
-        ">
-            🟡 WARNING ZONE
-        </div>
-
-        <!-- Emergency -->
-        <div style="
-            position:absolute;
-            right:10%;
-            bottom:15%;
-            padding:12px;
-            background:#4a0715;
-            border:2px solid #ff1744;
-            border-radius:10px;
-        ">
-            🚨 EMERGENCY
-        </div>
-
-        <!-- Sensors -->
-        <div style="
-            position:absolute;
-            left:20%;
-            top:65%;
-            font-size:25px;
-        ">
-            📡
-        </div>
-
-        <div style="
-            position:absolute;
-            right:35%;
-            bottom:8%;
-            font-size:25px;
-        ">
-            📡
-        </div>
-
-    </div>
-
-    <p style="
-        margin-top:15px;
-        color:#8ca4bd;
-    ">
-        🟢 Safe &nbsp;&nbsp;
-        🟡 Warning &nbsp;&nbsp;
-        🔴 Emergency &nbsp;&nbsp;
-        📡 IoT Sensor
-    </p>
-
-</div> 
-      <div class="section">
-
-        <div class="panel">
-
-            <h2>📊 Campus Risk Analytics</h2>
-
-            <div class="progress">
-                <div class="progress-top">
-                    <span>Security</span>
-                    <span>85%</span>
-                </div>
-
-                <div class="bar">
-                    <div class="fill greenbar"></div>
-                </div>
-            </div>
-
-            <div class="progress">
-                <div class="progress-top">
-                    <span>Infrastructure</span>
-                    <span>70%</span>
-                </div>
-
-                <div class="bar">
-                    <div class="fill"></div>
-                </div>
-            </div>
-
-            <div class="progress">
-                <div class="progress-top">
-                    <span>Emergency Risk</span>
-                    <span>45%</span>
-                </div>
-
-                <div class="bar">
-                    <div class="fill yellowbar"></div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>🌐 Digital Twin</h2>
-
-            <div class="feed">
-                🏫 Campus Model: ACTIVE
-            </div>
-
-            <div class="feed">
-                📡 Sensors: CONNECTED
-            </div>
-
-            <div class="feed">
-                🤖 AI Engine: RUNNING
-            </div>
-
-            <div class="feed">
-                ⚡ Response: READY
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="section">
-
-        <div class="panel">
-
-            <h2>📡 Live Activity Feed</h2>
-
-            <div id="feed">
-
-                <div class="feed">
-                    🟢 System initialized
-                </div>
-
-                <div class="feed">
-                    📡 128 IoT sensors connected
-                </div>
-
-                <div class="feed">
-                    🧠 AI prediction engine active
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>⚡ Autonomous Response</h2> 
-            <div style="
-    margin-top:20px;
-    padding:15px;
-    background:#07111e;
-    border:1px solid #1c344d;
-    border-radius:10px;
-">
-
-    <div id="responseStatus"
-         style="color:#00ff88;font-weight:bold;">
-        🟢 RESPONSE SYSTEM READY
-    </div>
-
-    <div id="responseSteps"
-         style="margin-top:15px;color:#8ca4bd;">
-        Waiting for a threat...
-    </div>
-
-    <button
-        onclick="activateResponse()"
-        style="margin-top:15px;">
-        ⚡ Activate Autonomous Response
-    </button>
-
-</div>
-
-            <p style="color:#8ca4bd;">
-                AI-controlled emergency response system.
-            </p>
-
-            <div class="buttons">
-
-                <button onclick="runAI()">
-                    🤖 Run AI Analysis
-                </button>
-
-                <button onclick="scanCampus()">
-                    🔍 Scan Campus
-                </button>
-
-                <button class="response" onclick="responseSystem()">
-                    ⚡ Activate Response
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="buttons">
-
-        <button class="home" onclick="goHome()">
-            ← Back to Home
-        </button>
-
-    </div>
-
-</div>
-
 
 <script>
+/* ---------- 1. Risk formula (every number on this page comes from here) ---------- */
+const WEIGHTS = { crowd: 0.30, alerts: 0.25, air: 0.20, temperature: 0.15, sensorHealth: 0.10 };
+const LABELS  = { crowd: 'Crowd level', alerts: 'Active alerts', air: 'Air quality', temperature: 'Temperature', sensorHealth: 'Sensor health' };
+const clamp01 = (x) => Math.min(1, Math.max(0, x));
 
-function runAI(){
-
-    let risk = Math.floor(Math.random() * 30) + 10;
-
-    document.getElementById("risk").innerText = risk + "%";
-
-    document.getElementById("prediction").innerText =
-        (100 - risk) + "%";
-
-    if(risk > 25){
-
-        document.getElementById("threat").innerText = "MEDIUM";
-
-        document.getElementById("threat").className =
-            "value yellow";
-
-    }else{
-
-        document.getElementById("threat").innerText = "LOW";
-
-        document.getElementById("threat").className =
-            "value green";
-    }
-
-    document.getElementById("feed").innerHTML =
-
-        '<div class="feed">🤖 AI analysis completed</div>' +
-
-        '<div class="feed">📊 Risk score updated to ' +
-        risk + '%</div>' +
-
-        '<div class="feed">🟢 No critical threats detected</div>' +
-
-        '<div class="feed">🧠 Predictive model synchronized</div>';
+function factorRisks(s) {
+  return {
+    crowd: clamp01((s.crowdPercent - 60) / 40),
+    alerts: clamp01(s.activeAlerts / 3),
+    air: clamp01((s.aqi - 50) / 250),
+    temperature: clamp01((s.temperatureC - 32) / 13),
+    sensorHealth: clamp01(1 - s.sensorsOnline / s.sensorsTotal)
+  };
+}
+function threatLevel(score) {
+  if (score >= 80) return 'EMERGENCY';
+  if (score >= 60) return 'HIGH';
+  if (score >= 30) return 'MEDIUM';
+  return 'LOW';
+}
+function computeRisk(s) {
+  const f = factorRisks(s);
+  const contributions = {};
+  let score = 0;
+  Object.keys(WEIGHTS).forEach(function (k) {
+    contributions[k] = Math.round(f[k] * WEIGHTS[k] * 100);
+    score += f[k] * WEIGHTS[k] * 100;
+  });
+  if (s.emergencyActive) score = Math.max(score, 80);
+  if (s.activeAlerts >= 2) score = Math.max(score, 60);
+  score = Math.round(score);
+  return { score: score, level: threatLevel(score), contributions: contributions };
+}
+function simulateSensors(prev) {
+  const drift = (v, step, min, max) => Math.min(max, Math.max(min, v + (Math.random() * 2 - 1) * step));
+  return {
+    temperatureC: Math.round(drift(prev.temperatureC, 1.5, 24, 42)),
+    crowdPercent: Math.round(drift(prev.crowdPercent, 8, 10, 100)),
+    aqi: Math.round(drift(prev.aqi, 15, 20, 300)),
+    activeAlerts: prev.activeAlerts,
+    emergencyActive: prev.emergencyActive,
+    sensorsOnline: prev.sensorsOnline,
+    sensorsTotal: prev.sensorsTotal
+  };
 }
 
-
-function scanCampus(){
-
-    let sensors =
-        Math.floor(Math.random() * 20) + 120;
-
-    document.getElementById("sensors").innerText =
-        sensors;
-
-    document.getElementById("feed").innerHTML =
-
-        '<div class="feed">🔍 Campus scanning started...</div>' +
-
-        '<div class="feed">📡 ' +
-        sensors +
-        ' sensors responding</div>' +
-
-        '<div class="feed">🟢 Campus zones scanned</div>' +
-
-        '<div class="feed">🟢 No critical anomalies found</div>';
-}
-
-
-function responseSystem(){
-
-    document.getElementById("feed").innerHTML =
-
-        '<div class="feed">⚡ Autonomous response activated</div>' +
-
-        '<div class="feed">🚨 Emergency protocols checked</div>' +
-
-        '<div class="feed">🟢 Response system ready</div>' +
-
-        '<div class="feed">🛡️ Campus protection active</div>';
-
-    alert(
-        "⚡ AUTONOMOUS RESPONSE SYSTEM\n\n" +
-        "System activated successfully!"
-    );
-}
-
-
-function goHome(){
-
-    window.location.href = "index.html";
-
-}
-function detectThreat(){
-
-    const status = document.getElementById("threatStatus");
-
-    status.innerText = "🔴 THREAT DETECTED";
-    status.style.color = "#ff4d4d";
-
-    document.getElementById("feed").innerHTML =
-
-        '<div class="feed">🚨 Threat detection activated</div>' +
-
-        '<div class="feed">⚠️ Abnormal activity detected</div>' +
-
-        '<div class="feed">🔴 Campus risk level increased</div>' +
-
-        '<div class="feed">⚡ Autonomous response preparing</div>';
-
-    setTimeout(function(){
-
-        status.innerText = "🟢 THREAT CONTAINED";
-        status.style.color = "#00ff88";
-
-        document.getElementById("feed").innerHTML +=
-
-            '<div class="feed">🛡️ Threat successfully contained</div>';
-
-    },3000);
-}  
-function activateResponse(){
-
-    const status =
-        document.getElementById("responseStatus");
-
-    const steps =
-        document.getElementById("responseSteps");
-
-    status.innerText =
-        "⚡ AUTONOMOUS RESPONSE ACTIVE";
-
-    status.style.color = "#ffd000";
-
-    steps.innerHTML =
-        "🔍 Analysing threat...";
-
-    setTimeout(function(){
-
-        steps.innerHTML =
-            "🧠 AI analysing risk level...";
-
-    },1000);
-
-    setTimeout(function(){
-
-        steps.innerHTML =
-            "🚨 Security alert initiated...";
-
-    },2000);
-
-    setTimeout(function(){
-
-        steps.innerHTML =
-            "🛡️ Threat containment in progress...";
-
-    },3000);
-
-    setTimeout(function(){
-
-        status.innerText =
-            "🟢 THREAT CONTAINED";
-
-        status.style.color = "#00ff88";
-
-        steps.innerHTML =
-            "✅ Autonomous response completed";
-
-    },4500);
-} 
-function updateSensors(){
-
-    let temperature =
-        Math.floor(Math.random() * 8) + 25;
-
-    let crowd =
-        Math.floor(Math.random() * 60) + 20;
-
-    let sensors =
-        Math.floor(Math.random() * 15) + 120;
-
-    document.getElementById("temperature").innerText =
-        temperature + "°C";
-
-    document.getElementById("crowd").innerText =
-        crowd + "%";
-
-    document.getElementById("liveSensors").innerText =
-        sensors;
-
-    if(crowd > 65){
-
-        document.getElementById("air").innerText =
-            "Moderate";
-
-    }else{
-
-        document.getElementById("air").innerText =
-            "Good";
-    }
-
-    document.getElementById("feed").innerHTML =
-
-        '<div class="feed">📡 Live sensor update received</div>' +
-
-        '<div class="feed">🌡️ Temperature: ' +
-        temperature + '°C</div>' +
-
-        '<div class="feed">👥 Crowd level: ' +
-        crowd + '%</div>' +
-
-        '<div class="feed">🟢 Sensors online: ' +
-        sensors + '</div>';
-}
- setInterval(function(){
-
-    let bars = document.querySelectorAll(
-        '.panel div[style*="height"]'
-    );
-
-    bars.forEach(function(bar){
-
-        let height =
-            Math.floor(Math.random() * 65) + 25;
-
-        bar.style.height = height + "%";
-
-    });
-
-},3000);   
-function generateAlert(){
-
-    const alertBox =
-        document.getElementById("liveAlert");
-
-    alertBox.innerText =
-        "🚨 SECURITY ALERT — Abnormal activity detected!";
-
-    alertBox.style.color = "#ff4d4d";
-    alertBox.style.borderColor = "#ff1744";
-    alertBox.style.background = "#250711";
-
-    document.getElementById("feed").innerHTML =
-
-        '<div class="feed">🚨 Security alert generated</div>' +
-
-        '<div class="feed">⚠️ Abnormal activity detected</div>' +
-
-        '<div class="feed">🧠 AI analysing threat level...</div>' +
-
-        '<div class="feed">⚡ Response system standing by</div>';
-
-    setTimeout(function(){
-
-        alertBox.innerText =
-            "🟢 ALERT ANALYSED — System monitoring active";
-
-        alertBox.style.color = "#00ff88";
-        alertBox.style.borderColor = "#00ff88";
-        alertBox.style.background = "#07111e";
-
-    },5000);
-}
-</script>
-<div class="panel" style="margin-top:30px;">
-
-    <h2>📊 Real-Time Risk Analytics</h2>
-
-    <div style="
-        height:220px;
-        background:#07111e;
-        border:1px solid #1c344d;
-        border-radius:15px;
-        padding:20px;
-        display:flex;
-        align-items:flex-end;
-        gap:12px;
-    ">
-
-        <div style="height:35%;flex:1;background:#00aaff;border-radius:5px 5px 0 0;"></div>
-
-        <div style="height:55%;flex:1;background:#00aaff;border-radius:5px 5px 0 0;"></div>
-
-        <div style="height:42%;flex:1;background:#00aaff;border-radius:5px 5px 0 0;"></div>
-
-        <div style="height:70%;flex:1;background:#ffd000;border-radius:5px 5px 0 0;"></div>
-
-        <div style="height:48%;flex:1;background:#00aaff;border-radius:5px 5px 0 0;"></div>
-
-        <div style="height:30%;flex:1;background:#00ff88;border-radius:5px 5px 0 0;"></div>
-
-        <div style="height:40%;flex:1;background:#00aaff;border-radius:5px 5px 0 0;"></div>
-
-    </div>
-
-    <p style="color:#8ca4bd;margin-top:12px;">
-        📈 Campus Risk Activity — Last 7 Updates
-    </p>
-
-</div> 
-<script src="risk.js"></script>
-<script>
-// ---- 1. Ellaa sensor values oru idathula ----
-let state = {
-  temperatureC: 28, crowdPercent: 42, aqi: 45,
-  activeAlerts: 0, emergencyActive: false,
-  sensorsOnline: 128, sensorsTotal: 128
-};
+/* ---------- 2. State ---------- */
+let state = { temperatureC: 28, crowdPercent: 42, aqi: 45, activeAlerts: 0, emergencyActive: false,
+              sensorsOnline: 128, sensorsTotal: 128 };
 const riskHistory = [];
+const feedItems = [];
+let responseRunning = false;
+let liveTimer = null;
 
-// Pazhaya random-chart timer-a stop pannum (adhu layout-a kedukkum)
-for (let i = 1; i < 200; i++) clearInterval(i);
-
-// ---- 2. Chinna helper functions ----
+/* ---------- 3. Helpers ---------- */
 const $ = (id) => document.getElementById(id);
-const colorName = (level) => level === 'LOW' ? 'green' : level === 'MEDIUM' ? 'yellow' : 'red';
-const colorHex = { green: '#00ff88', yellow: '#ffd000', red: '#ff4d4d' };
+const toneOf = (level) => level === 'LOW' ? 'safe' : level === 'MEDIUM' ? 'warn' : 'danger';
+const colorOf = { safe: '#2ee59d', warn: '#ffc933', danger: '#ff5468' };
+const nowTime = () => new Date().toLocaleTimeString('en-GB');
+function airLabel(aqi) { return aqi <= 50 ? 'Good' : aqi <= 100 ? 'Moderate' : aqi <= 200 ? 'Poor' : 'Very poor'; }
 
-function airLabel(aqi) {
-  if (aqi <= 50) return 'Good';
-  if (aqi <= 100) return 'Moderate';
-  if (aqi <= 200) return 'Poor';
-  return 'Very Poor';
-}
-
-function showFeed(lines) {
-  $('feed').innerHTML = lines.map(function (t) {
-    return '<div class="feed">' + t + '</div>';
+function log(text, tone) {
+  feedItems.unshift({ t: nowTime(), text: text, tone: tone || 'info' });
+  if (feedItems.length > 8) feedItems.pop();
+  $('feed').innerHTML = feedItems.map(function (i) {
+    return '<li data-tone="' + i.tone + '"><time>' + i.t + '</time><span>' + i.text + '</span></li>';
   }).join('');
 }
 
-const chartBox = Array.from(document.querySelectorAll('.panel p'))
-  .find(function (p) { return p.textContent.includes('Last 7 Updates'); })
-  ?.previousElementSibling;
+/* ---------- 4. Campus map ---------- */
+const ZONES = [
+  { id: 'gate',    name: 'Main gate',   x: 20,  y: 150, w: 120, h: 100, risk: (f) => f.crowd },
+  { id: 'admin',   name: 'Admin block', x: 170, y: 36,  w: 150, h: 96,  risk: (f) => f.alerts },
+  { id: 'library', name: 'Library',     x: 395, y: 36,  w: 140, h: 96,  risk: (f) => f.alerts * 0.6 },
+  { id: 'labs',    name: 'Labs',        x: 570, y: 36,  w: 170, h: 96,  risk: (f) => Math.max(f.temperature, f.sensorHealth * 3) },
+  { id: 'canteen', name: 'Canteen',     x: 170, y: 270, w: 150, h: 96,  risk: (f) => f.crowd },
+  { id: 'hostel',  name: 'Hostel',      x: 395, y: 270, w: 140, h: 96,  risk: (f) => f.air },
+  { id: 'hall',    name: 'Auditorium',  x: 570, y: 270, w: 170, h: 96,  risk: (f) => f.crowd * 0.8 }
+];
+const NODES = [[155,150],[355,150],[555,150],[155,250],[355,250],[555,250],[250,152],[470,152],[250,248],[470,248],[650,152],[650,248]];
 
-// ---- 3. render(): dashboard-la ellaa numbers-um inga irundhu mattum ----
+function buildMap() {
+  let s = '<svg viewBox="0 0 760 400" role="img" aria-label="Campus digital twin map">';
+  s += '<defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#10243a" stroke-width="1"/></pattern></defs>';
+  s += '<rect width="760" height="400" fill="url(#grid)"/>';
+  s += '<rect x="0" y="165" width="760" height="70" fill="#0a1a2c"/><rect x="340" y="0" width="30" height="400" fill="#0a1a2c"/>';
+  s += '<line x1="0" y1="200" x2="760" y2="200" stroke="#1c3049" stroke-dasharray="10 10"/>';
+  ZONES.forEach(function (z) {
+    s += '<g class="zone safe" id="zone-' + z.id + '"><rect x="' + z.x + '" y="' + z.y + '" width="' + z.w + '" height="' + z.h + '" rx="10"/>' +
+         '<text class="zname" x="' + (z.x + z.w / 2) + '" y="' + (z.y + z.h / 2 - 2) + '">' + z.name + '</text>' +
+         '<text class="zstate" id="zs-' + z.id + '" x="' + (z.x + z.w / 2) + '" y="' + (z.y + z.h / 2 + 18) + '">Safe</text></g>';
+  });
+  NODES.forEach(function (n, i) {
+    s += '<circle class="node" cx="' + n[0] + '" cy="' + n[1] + '" r="5" style="animation-delay:' + ((i % 6) * 0.3) + 's"/>';
+  });
+  s += '</svg>';
+  $('mapBox').innerHTML = s;
+}
+
+function updateMap(f) {
+  ZONES.forEach(function (z) {
+    let v = z.risk(f);
+    if (state.emergencyActive && (z.id === 'admin' || z.id === 'gate')) v = 1;
+    const cls = v >= 0.66 ? 'danger' : v >= 0.25 ? 'warn' : 'safe';
+    $('zone-' + z.id).setAttribute('class', 'zone ' + cls);
+    $('zs-' + z.id).textContent = cls === 'danger' ? 'Alert' : cls === 'warn' ? 'Watch' : 'Safe';
+  });
+}
+
+/* ---------- 5. Breakdown rows ---------- */
+function buildBreakdown() {
+  $('breakdown').innerHTML = Object.keys(WEIGHTS).map(function (k) {
+    return '<div class="row"><div class="row-top"><span>' + LABELS[k] + '</span><span id="bp-' + k + '"></span></div>' +
+           '<div class="bar"><div class="fill" id="bf-' + k + '"></div></div></div>';
+  }).join('');
+}
+
+/* ---------- 6. render(): updates the whole dashboard from state ---------- */
 function render() {
   const r = computeRisk(state);
   const f = factorRisks(state);
-  const color = colorName(r.level);
-  const hex = colorHex[color];
+  const tone = toneOf(r.level);
+  const color = colorOf[tone];
 
   riskHistory.push(r.score);
   if (riskHistory.length > 7) riskHistory.shift();
 
-  // top cards
-  $('risk').innerText = r.score + '%';
-  $('risk').className = 'value ' + color;
-  $('prediction').innerText = (100 - r.score) + '%';
-  $('threat').innerText = r.level;
-  $('threat').className = 'value ' + color;
-  $('sensors').innerText = state.sensorsOnline;
+  // summary cards
+  $('prediction').textContent = (100 - r.score) + '%';
+  $('risk').textContent = r.score + '%';
+  $('riskCard').dataset.tone = tone;
+  $('threat').textContent = r.level;
+  $('threatCard').dataset.tone = tone;
+  $('updated').textContent = 'Updated ' + nowTime();
+  $('sensors').textContent = state.sensorsOnline;
+  $('sensorsSub').textContent = 'of ' + state.sensorsTotal + ' sensors';
 
-  // live sensor panel
-  $('temperature').innerText = state.temperatureC + '°C';
-  $('crowd').innerText = state.crowdPercent + '%';
-  $('air').innerText = airLabel(state.aqi);
-  $('liveSensors').innerText = state.sensorsOnline;
+  // header + banner
+  $('sysStatus').dataset.tone = tone;
+  $('sysText').textContent = tone === 'safe' ? 'System online' : tone === 'warn' ? 'Elevated risk' : 'Threat active';
+  const banner = $('liveAlert');
+  banner.dataset.tone = tone;
+  banner.textContent =
+    r.level === 'LOW' ? (state.activeAlerts > 0 ? 'Live monitoring: ' + state.activeAlerts + ' alert under watch'
+                                                : 'Live monitoring: no active alerts') :
+    r.level === 'MEDIUM' ? 'Live monitoring: elevated risk, review the sensors' :
+    'Security alert: risk level ' + r.level + '. Activate the autonomous response.';
 
-  // status texts
-  const labels = {
-    LOW: '🟢 CAMPUS SAFE',
-    MEDIUM: '🟡 CAMPUS WARNING',
-    HIGH: '🔴 HIGH RISK',
-    EMERGENCY: '🔴 THREAT DETECTED'
-  };
-  $('threatStatus').innerText = labels[r.level];
-  $('threatStatus').style.color = hex;
+  // sensor tiles
+  $('temperature').textContent = state.temperatureC + '°C';
+  $('crowd').textContent = state.crowdPercent + '%';
+  $('air').textContent = airLabel(state.aqi);
+  $('alerts').textContent = state.activeAlerts;
 
-  const box = $('liveAlert');
-  box.innerText =
-    r.level === 'LOW' ? (state.activeAlerts > 0
-      ? '🟢 LIVE MONITORING — ' + state.activeAlerts + ' alert under watch'
-      : '🟢 LIVE MONITORING — No active alerts') :
-    r.level === 'MEDIUM' ? '🟡 LIVE MONITORING — Elevated risk' :
-    '🚨 SECURITY ALERT — Risk level ' + r.level;
-  box.style.color = hex;
-  box.style.borderColor = hex;
-  box.style.background =
-    r.level === 'LOW' ? '#07111e' : r.level === 'MEDIUM' ? '#1f1a05' : '#250711';
+  // map
+  updateMap(f);
 
-  // Campus Risk Analytics bars
-  const security = 100 - Math.round((f.alerts * 0.6 + f.crowd * 0.4) * 100);
-  const infra = 100 - Math.round((f.sensorHealth * 0.5 + f.temperature * 0.5) * 100);
-  const values = [security, infra, r.score];
-  const colors = [colorHex.green, '#00aaff', hex];
-  document.querySelectorAll('.progress').forEach(function (p, i) {
-    p.querySelector('.progress-top span:last-child').innerText = values[i] + '%';
-    const fill = p.querySelector('.fill');
-    fill.style.width = values[i] + '%';
-    fill.style.background = colors[i];
+  // breakdown
+  Object.keys(WEIGHTS).forEach(function (k) {
+    const max = Math.round(WEIGHTS[k] * 100);
+    const pts = r.contributions[k];
+    $('bp-' + k).textContent = pts + ' of ' + max + ' points';
+    const fill = $('bf-' + k);
+    fill.style.width = (pts / max * 100) + '%';
+    fill.style.background = pts / max >= 0.66 ? colorOf.danger : pts / max >= 0.25 ? colorOf.warn : '#38bdf8';
   });
 
-  // Last 7 updates chart
-  if (chartBox) {
-    chartBox.innerHTML = riskHistory.map(function (s) {
-      const c = s >= 60 ? colorHex.red : s >= 30 ? colorHex.yellow : '#00aaff';
-      return '<div style="height:' + Math.max(s, 5) +
-        '%;flex:1;background:' + c + ';border-radius:5px 5px 0 0;"></div>';
+  // trend chart
+  $('chart').innerHTML =
+    '<div class="guide" style="bottom:30%"><span>30</span></div><div class="guide" style="bottom:60%"><span>60</span></div>' +
+    riskHistory.map(function (s) {
+      const c = colorOf[toneOf(threatLevel(s))];
+      return '<div class="bar-col"><small>' + s + '</small><div class="b" style="height:' + Math.max(s, 4) + '%;background:' + c + '"></div></div>';
     }).join('');
-  }
+  $('chartNote').textContent = 'Current: ' + r.score + '% (' + r.level + ')';
+
   return r;
 }
 
-// ---- 4. Buttons: pazhaya functions-a replace pannum ----
-function runAI() {
-  const r = render();
-  showFeed([
-    '🤖 AI analysis completed',
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
-    '🧠 Predictive model synchronized'
-  ]);
-}
-
-function scanCampus() {
-  state.sensorsOnline = Math.floor(Math.random() * 11) + 118;   // 118 to 128
-  const r = render();
-  showFeed([
-    '🔍 Campus scanning started...',
-    '📡 ' + state.sensorsOnline + ' of ' + state.sensorsTotal + ' sensors responding',
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
-  ]);
-}
-
-function updateSensors() {
+/* ---------- 7. Actions ---------- */
+function updateSensors(quiet) {
   state = simulateSensors(state);
   const r = render();
-  showFeed([
-    '📡 Live sensor update received',
-    '🌡️ Temperature: ' + state.temperatureC + '°C',
-    '👥 Crowd level: ' + state.crowdPercent + '%',
-    '💨 Air quality: ' + airLabel(state.aqi),
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
-  ]);
+  if (!quiet) log('Sensors updated. Risk ' + r.score + '% (' + r.level + ')', toneOf(r.level));
 }
-
+function scanCampus() {
+  state.sensorsOnline = Math.floor(Math.random() * 11) + 118;
+  const r = render();
+  log('Campus scan: ' + state.sensorsOnline + ' of ' + state.sensorsTotal + ' sensors responding', toneOf(r.level));
+}
+function runAI() {
+  const r = render();
+  let top = 'crowd', best = -1;
+  Object.keys(r.contributions).forEach(function (k) { if (r.contributions[k] > best) { best = r.contributions[k]; top = k; } });
+  const driver = best > 0 ? 'Main driver: ' + LABELS[top].toLowerCase() : 'No risk drivers found';
+  log('AI analysis done. Risk ' + r.score + '% (' + r.level + '). ' + driver, toneOf(r.level));
+}
 function detectThreat() {
   state.activeAlerts = Math.min(state.activeAlerts + 1, 3);
   const r = render();
-  showFeed([
-    '🚨 Threat detection activated',
-    '⚠️ Active alerts: ' + state.activeAlerts,
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
-    '⚡ Autonomous response standing by'
-  ]);
+  log('Threat detected. Active alerts: ' + state.activeAlerts + '. Risk ' + r.score + '% (' + r.level + ')', 'danger');
 }
-
-function generateAlert() {
+function raiseAlert() {
   state.emergencyActive = true;
   const r = render();
-  showFeed([
-    '🚨 Security alert generated',
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
-    '🧠 AI analysing threat level...',
-    '⚡ Response system standing by'
-  ]);
+  log('Security alert raised. Risk ' + r.score + '% (' + r.level + ')', 'danger');
   setTimeout(function () {
     state.emergencyActive = false;
-    render();
-    showFeed(['🟢 Alert analysed — system monitoring active']);
-  }, 5000);
+    const r2 = render();
+    log('Alert reviewed. Risk back to ' + r2.score + '% (' + r2.level + ')', toneOf(r2.level));
+  }, 6000);
 }
-
+function toggleLive() {
+  const btn = $('liveBtn');
+  if (liveTimer) {
+    clearInterval(liveTimer); liveTimer = null;
+    btn.textContent = 'Live updates: off';
+    log('Live updates turned off');
+  } else {
+    liveTimer = setInterval(function () { updateSensors(true); }, 5000);
+    btn.textContent = 'Live updates: on';
+    log('Live updates turned on (every 5 seconds)', 'safe');
+  }
+}
 function activateResponse() {
+  if (responseRunning) return;
   const status = $('responseStatus');
-  const steps = $('responseSteps');
-  status.innerText = '⚡ AUTONOMOUS RESPONSE ACTIVE';
-  status.style.color = '#ffd000';
-  steps.innerHTML = '🔍 Analysing threat...';
+  const items = document.querySelectorAll('#steps li');
+  const r0 = computeRisk(state);
+  if (r0.level === 'LOW' && state.activeAlerts === 0) {
+    status.textContent = 'No active threat. Response system on standby';
+    log('Response requested, but no active threat was found');
+    return;
+  }
+  responseRunning = true;
+  $('responseBtn').disabled = true;
+  status.dataset.tone = 'warn';
+  status.textContent = 'Autonomous response active';
+  items.forEach(function (li) { li.className = ''; li.querySelector('.mark').textContent = ''; });
+  log('Autonomous response activated', 'warn');
 
-  setTimeout(function () { steps.innerHTML = '🧠 AI analysing risk level...'; }, 1000);
-  setTimeout(function () { steps.innerHTML = '🚨 Security alert initiated...'; }, 2000);
-  setTimeout(function () { steps.innerHTML = '🛡️ Threat containment in progress...'; }, 3000);
-  setTimeout(function () {
-    state.activeAlerts = 0;
-    state.emergencyActive = false;
-    const r = render();
-    status.innerText = '🟢 THREAT CONTAINED';
-    status.style.color = '#00ff88';
-    steps.innerHTML = '✅ Autonomous response completed. Risk score now ' + r.score + '%';
-    showFeed([
-      '⚡ Autonomous response completed',
-      '🛡️ Threat contained, alerts cleared',
-      '📊 Risk score: ' + r.score + '% (' + r.level + ')'
-    ]);
-  }, 4500);
+  let i = 0;
+  function step() {
+    if (i > 0) { items[i - 1].className = 'done'; items[i - 1].querySelector('.mark').textContent = '✓'; }
+    if (i < items.length) {
+      items[i].className = 'active';
+      i++;
+      setTimeout(step, 1100);
+    } else {
+      state.activeAlerts = 0;
+      state.emergencyActive = false;
+      const r = render();
+      status.dataset.tone = 'safe';
+      status.textContent = 'Threat contained. Response system ready';
+      log('Threat contained. Alerts cleared. Risk ' + r.score + '% (' + r.level + ')', 'safe');
+      responseRunning = false;
+      $('responseBtn').disabled = false;
+    }
+  }
+  step();
 }
 
-// "Activate Response" (red button) same response use pannum
-function responseSystem() {
-  activateResponse();
-}
+/* ---------- 8. Start ---------- */
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const a = btn.dataset.action;
+  if (a === 'update') updateSensors();
+  else if (a === 'scan') scanCampus();
+  else if (a === 'ai') runAI();
+  else if (a === 'threat') detectThreat();
+  else if (a === 'alert') raiseAlert();
+  else if (a === 'live') toggleLive();
+  else if (a === 'response') activateResponse();
+});
 
-// ---- 5. Start: chart-ku modhal 6 values, appuram first render ----
-{
+buildMap();
+buildBreakdown();
+(function seedChart() {            // first 6 chart values, so the chart is not empty
   let demo = Object.assign({}, state);
-  for (let i = 0; i < 6; i++) {
-    demo = simulateSensors(demo);
-    riskHistory.push(computeRisk(demo).score);
-  }
-}
+  for (let i = 0; i < 6; i++) { demo = simulateSensors(demo); riskHistory.push(computeRisk(demo).score); }
+})();
 render();
-</script> 
-        <script>
-// ---- 1. Ellaa sensor values oru idathula ----
-let state = {
-  temperatureC: 28, crowdPercent: 42, aqi: 45,
-  activeAlerts: 0, emergencyActive: false,
-  sensorsOnline: 128, sensorsTotal: 128
-};
-const riskHistory = [];
-
-// Pazhaya random-chart timer-a stop pannum (adhu layout-a kedukkum)
-for (let i = 1; i < 200; i++) clearInterval(i);
-
-// ---- 2. Chinna helper functions ----
-const $ = (id) => document.getElementById(id);
-const colorName = (level) => level === 'LOW' ? 'green' : level === 'MEDIUM' ? 'yellow' : 'red';
-const colorHex = { green: '#00ff88', yellow: '#ffd000', red: '#ff4d4d' };
-
-function airLabel(aqi) {
-  if (aqi <= 50) return 'Good';
-  if (aqi <= 100) return 'Moderate';
-  if (aqi <= 200) return 'Poor';
-  return 'Very Poor';
-}
-
-function showFeed(lines) {
-  $('feed').innerHTML = lines.map(function (t) {
-    return '<div class="feed">' + t + '</div>';
-  }).join('');
-}
-
-const chartBox = Array.from(document.querySelectorAll('.panel p'))
-  .find(function (p) { return p.textContent.includes('Last 7 Updates'); })
-  ?.previousElementSibling;
-
-// ---- 3. render(): dashboard-la ellaa numbers-um inga irundhu mattum ----
-function render() {
-  const r = computeRisk(state);
-  const f = factorRisks(state);
-  const color = colorName(r.level);
-  const hex = colorHex[color];
-
-  riskHistory.push(r.score);
-  if (riskHistory.length > 7) riskHistory.shift();
-
-  // top cards
-  $('risk').innerText = r.score + '%';
-  $('risk').className = 'value ' + color;
-  $('prediction').innerText = (100 - r.score) + '%';
-  $('threat').innerText = r.level;
-  $('threat').className = 'value ' + color;
-  $('sensors').innerText = state.sensorsOnline;
-
-  // live sensor panel
-  $('temperature').innerText = state.temperatureC + '°C';
-  $('crowd').innerText = state.crowdPercent + '%';
-  $('air').innerText = airLabel(state.aqi);
-  $('liveSensors').innerText = state.sensorsOnline;
-
-  // status texts
-  const labels = {
-    LOW: '🟢 CAMPUS SAFE',
-    MEDIUM: '🟡 CAMPUS WARNING',
-    HIGH: '🔴 HIGH RISK',
-    EMERGENCY: '🔴 THREAT DETECTED'
-  };
-  $('threatStatus').innerText = labels[r.level];
-  $('threatStatus').style.color = hex;
-
-  const box = $('liveAlert');
-  box.innerText =
-    r.level === 'LOW' ? (state.activeAlerts > 0
-      ? '🟢 LIVE MONITORING — ' + state.activeAlerts + ' alert under watch'
-      : '🟢 LIVE MONITORING — No active alerts') :
-    r.level === 'MEDIUM' ? '🟡 LIVE MONITORING — Elevated risk' :
-    '🚨 SECURITY ALERT — Risk level ' + r.level;
-  box.style.color = hex;
-  box.style.borderColor = hex;
-  box.style.background =
-    r.level === 'LOW' ? '#07111e' : r.level === 'MEDIUM' ? '#1f1a05' : '#250711';
-
-  // Campus Risk Analytics bars
-  const security = 100 - Math.round((f.alerts * 0.6 + f.crowd * 0.4) * 100);
-  const infra = 100 - Math.round((f.sensorHealth * 0.5 + f.temperature * 0.5) * 100);
-  const values = [security, infra, r.score];
-  const colors = [colorHex.green, '#00aaff', hex];
-  document.querySelectorAll('.progress').forEach(function (p, i) {
-    p.querySelector('.progress-top span:last-child').innerText = values[i] + '%';
-    const fill = p.querySelector('.fill');
-    fill.style.width = values[i] + '%';
-    fill.style.background = colors[i];
-  });
-
-  // Last 7 updates chart
-  if (chartBox) {
-    chartBox.innerHTML = riskHistory.map(function (s) {
-      const c = s >= 60 ? colorHex.red : s >= 30 ? colorHex.yellow : '#00aaff';
-      return '<div style="height:' + Math.max(s, 5) +
-        '%;flex:1;background:' + c + ';border-radius:5px 5px 0 0;"></div>';
-    }).join('');
-  }
-  return r;
-}
-
-// ---- 4. Buttons: pazhaya functions-a replace pannum ----
-function runAI() {
-  const r = render();
-  showFeed([
-    '🤖 AI analysis completed',
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
-    '🧠 Predictive model synchronized'
-  ]);
-}
-
-function scanCampus() {
-  state.sensorsOnline = Math.floor(Math.random() * 11) + 118;   // 118 to 128
-  const r = render();
-  showFeed([
-    '🔍 Campus scanning started...',
-    '📡 ' + state.sensorsOnline + ' of ' + state.sensorsTotal + ' sensors responding',
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
-  ]);
-}
-
-function updateSensors() {
-  state = simulateSensors(state);
-  const r = render();
-  showFeed([
-    '📡 Live sensor update received',
-    '🌡️ Temperature: ' + state.temperatureC + '°C',
-    '👥 Crowd level: ' + state.crowdPercent + '%',
-    '💨 Air quality: ' + airLabel(state.aqi),
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')'
-  ]);
-}
-
-function detectThreat() {
-  state.activeAlerts = Math.min(state.activeAlerts + 1, 3);
-  const r = render();
-  showFeed([
-    '🚨 Threat detection activated',
-    '⚠️ Active alerts: ' + state.activeAlerts,
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
-    '⚡ Autonomous response standing by'
-  ]);
-}
-
-function generateAlert() {
-  state.emergencyActive = true;
-  const r = render();
-  showFeed([
-    '🚨 Security alert generated',
-    '📊 Risk score: ' + r.score + '% (' + r.level + ')',
-    '🧠 AI analysing threat level...',
-    '⚡ Response system standing by'
-  ]);
-  setTimeout(function () {
-    state.emergencyActive = false;
-    render();
-    showFeed(['🟢 Alert analysed — system monitoring active']);
-  }, 5000);
-}
-
-function activateResponse() {
-  const status = $('responseStatus');
-  const steps = $('responseSteps');
-  status.innerText = '⚡ AUTONOMOUS RESPONSE ACTIVE';
-  status.style.color = '#ffd000';
-  steps.innerHTML = '🔍 Analysing threat...';
-
-  setTimeout(function () { steps.innerHTML = '🧠 AI analysing risk level...'; }, 1000);
-  setTimeout(function () { steps.innerHTML = '🚨 Security alert initiated...'; }, 2000);
-  setTimeout(function () { steps.innerHTML = '🛡️ Threat containment in progress...'; }, 3000);
-  setTimeout(function () {
-    state.activeAlerts = 0;
-    state.emergencyActive = false;
-    const r = render();
-    status.innerText = '🟢 THREAT CONTAINED';
-    status.style.color = '#00ff88';
-    steps.innerHTML = '✅ Autonomous response completed. Risk score now ' + r.score + '%';
-    showFeed([
-      '⚡ Autonomous response completed',
-      '🛡️ Threat contained, alerts cleared',
-      '📊 Risk score: ' + r.score + '% (' + r.level + ')'
-    ]);
-  }, 4500);
-}
-
-// "Activate Response" (red button) same response use pannum
-function responseSystem() {
-  activateResponse();
-}
-
-// ---- 5. Start: chart-ku modhal 6 values, appuram first render ----
-{
-  let demo = Object.assign({}, state);
-  for (let i = 0; i < 6; i++) {
-    demo = simulateSensors(demo);
-    riskHistory.push(computeRisk(demo).score);
-  }
-}
-render();
+log('Risk engine active');
+log('128 IoT sensors connected', 'safe');
+log('System initialised', 'safe');
 </script>
 </body>
 </html>
